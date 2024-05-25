@@ -1,5 +1,18 @@
-#ifdef _TEST
+#include "directx9_test.h"
+
+// I would like to move opengl and directx into their own classes.
+// So I can switch between them and the main file won't be so messy.
+
+#ifndef _TEST
+#define _TEST
+#endif
+
+#ifndef _DIRECTX9
+//#define _DIRECTX9
+#endif
+
 #ifdef _DIRECTX9
+#ifdef _TEST
 // Dear ImGui: standalone example application for DirectX 9
 
 // Learn about Dear ImGui:
@@ -7,6 +20,7 @@
 // - Getting Started      https://dearimgui.com/getting-started
 // - Documentation        https://dearimgui.com/docs (same as your local docs/ folder).
 // - Introduction, links and more at the top of imgui.cpp
+
 
 
 #include "imgui.h"
@@ -24,7 +38,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "util/textFileFunctions.h"
+#include "../util/textFileFunctions.h"
 
 // https://www.geeksforgeeks.org/macros-and-its-types-in-c-cpp/
 // Test macros
@@ -32,7 +46,7 @@
 
 // Test code
 #ifndef _TEST
-#define _TEST
+//#define _TEST
 #endif
 
 // Data
@@ -62,11 +76,11 @@ static void HelpMarker(const char* desc)
 // Windows specific features
 // https://stackoverflow.com/questions/41600981/how-do-i-check-if-a-key-is-pressed-on-c
 #ifdef _WIN32
-    SHORT keyState = GetKeyState(VK_CAPITAL/*(caps lock)*/);
-    bool isToggled = keyState & 1;
-    bool isDown = keyState & 0x8000;
-    //[DllImport("kernel32.dll")]
-    //static extern IntPtr GetConsoleWindow();
+SHORT keyState = GetKeyState(VK_CAPITAL/*(caps lock)*/);
+bool isToggled = keyState & 1;
+bool isDown = keyState & 0x8000;
+//[DllImport("kernel32.dll")]
+//static extern IntPtr GetConsoleWindow();
 #endif
 
 
@@ -117,7 +131,7 @@ static void ShowWindow(bool* p_open)
 
     if (!ImGui::Begin("Test", p_open))
     {
-    
+
         ImGui::End();
         return;
     }
@@ -126,16 +140,15 @@ static void ShowWindow(bool* p_open)
 }
 
 // Main code
-int main(int, char**)
+void DirectX9Test::directX9Test()
 {
 
 #ifdef _TEST
-    //std::cout << testString1();
-    std::cout << "Hello world!";
+    std::cout << testString1();
+#endif
 
-#else
     // Create application window
-//ImGui_ImplWin32_EnableDpiAwareness();
+    //ImGui_ImplWin32_EnableDpiAwareness();
     WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"ImGui Example", nullptr };
     ::RegisterClassExW(&wc);
     HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Dear ImGui DirectX9 Example", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, nullptr, nullptr, wc.hInstance, nullptr);
@@ -145,7 +158,7 @@ int main(int, char**)
     {
         CleanupDeviceD3D();
         ::UnregisterClassW(wc.lpszClassName, wc.hInstance);
-        return 1;
+        //return 1;
     }
 
     // Show the window
@@ -464,11 +477,6 @@ int main(int, char**)
     CleanupDeviceD3D();
     ::DestroyWindow(hwnd);
     ::UnregisterClassW(wc.lpszClassName, wc.hInstance);
-
-    return 0;
-#endif //_TEST
-
-
 }
 
 // Helper functions
@@ -540,37 +548,5 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return ::DefWindowProcW(hWnd, msg, wParam, lParam);
 }
 
+#endif //_TEST
 #endif //_DIRECTX9
-
-#else
-
-#include <string>
-#include <iostream>
-
-
-
-// Main code
-// I moved the DirectX9 code into the test/directx9_test.cpp file,
-// The code above is disabled with a preprocessor.
-
-#ifdef _DIRECTX9
-#include "test/directx9_test.h"
-#endif //_DIRECTX9
-
-#ifdef _OPENGL
-#include "test/opengl_test.h"
-#endif //_OPENGL
-
-int main(int, char**)
-{
-#ifdef _DIRECTX9
-    DirectX9Test::directX9Test();
-#endif //_DIRECTX9
-
-#ifdef _OPENGL
-    OpenGLTest::openGLTest();
-#endif //_OPENGL
-    
-    //std::cout << "Hello World";
-}
-#endif // _TEST

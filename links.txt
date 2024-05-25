@@ -1,0 +1,3 @@
+ImGui C++ (Used for this project): https://github.com/ocornut/imgui
+
+C++ Naming scheme: https://manual.gromacs.org/documentation/2019/dev-manual/naming.html

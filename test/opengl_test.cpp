@@ -3,12 +3,13 @@
 // Moving opengl test into this file until I'm ready to mess with it.
 // 5-25-2024 @ 12:21PM
 
+// https://www.reddit.com/r/cpp/comments/16scrps/at_what_point_in_your_c_development_do_you/
+
 #ifndef _OPENGL
 //#define _OPENGL
 #endif
 
-// I never did get this one working.
-// Keeps giving linker errors and library not found errors.
+// I almost got this working, now it says that ImGui_ImplOpenGL3_Init is not defined.
 #ifdef _OPENGL
 
 // Dear ImGui: standalone example application for GLFW + OpenGL 3, using programmable pipeline
@@ -98,7 +99,8 @@ void OpenGLTest::openGLTest()
 #ifdef __EMSCRIPTEN__
     ImGui_ImplGlfw_InstallEmscriptenCanvasResizeCallback("#canvas");
 #endif
-    ImGui_ImplOpenGL3_Init(glsl_version);
+    //ImGui_ImplOpenGL3_Init(glsl_version);
+    ImGui_ImplOpenGL3_Init("#version 130");
 
     // Load Fonts
     // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
@@ -191,6 +193,8 @@ void OpenGLTest::openGLTest()
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         glfwSwapBuffers(window);
+
+        ImGui::EndFrame();
     }
 #ifdef __EMSCRIPTEN__
     EMSCRIPTEN_MAINLOOP_END;

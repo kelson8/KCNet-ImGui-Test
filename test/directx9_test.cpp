@@ -23,8 +23,7 @@
 // - Documentation        https://dearimgui.com/docs (same as your local docs/ folder).
 // - Introduction, links and more at the top of imgui.cpp
 
-
-
+// ImGui
 #include "imgui.h"
 #include "imgui_impl_dx9.h"
 
@@ -33,6 +32,7 @@
 #include <Windows.h>
 #include "../util/keystates.h"
 #endif
+//
 
 #include <d3d9.h>
 #include <tchar.h>
@@ -41,9 +41,14 @@
 #include <iostream>
 #include <fstream>
 
+// Util
 #include "../util/text_file_functions.h"
 #include "../util/text_functions.h"
+//
+// Menus
 #include "../menus/main_menu.h"
+#include "../menus/text_menu.h"
+//
 
 // https://www.geeksforgeeks.org/macros-and-its-types-in-c-cpp/
 // Test macros
@@ -147,6 +152,9 @@ static void ShowWindow(bool* p_open)
 // Main code
 void DirectX9Test::directX9Test()
 {
+
+	// Define custom booleans and features.
+	TextMenu *textMenu = new TextMenu();
 
 #ifdef _TEST
 	//std::cout << testString1();
@@ -258,19 +266,12 @@ void DirectX9Test::directX9Test()
 
 			MainMenu::MainMenuTest();
 
+
+
 			// Text file functions test menu
 			if (ImGui::CollapsingHeader("Text File Functions"))
 			{
-				ImGui::BulletText("I will add reading files, writing and more to this.");
-				ImGui::Separator();
-
-				// I almost got this working 5-17-2024 @ 3:14PM
-				// It doesn't print out all of the lines from the return value.
-				if (ImGui::Button("Test"))
-				{
-					TextFileFunctions::printTextOutput("test.txt");
-					//std::cout << TextFileFunctions::printTextOutput("test.txt") << std::endl;
-				}
+				textMenu->TextMainMenu();
 			}
 			// End Text file functions test menu
 

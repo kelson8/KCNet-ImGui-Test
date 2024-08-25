@@ -23,18 +23,20 @@
 // Test macros
 #define LIMIT 5
 
-// This file is inactive, not in use yet.
-
 // Boolean values
-bool DirectX9Test::show_demo_window = true;
+bool DirectX9Test::show_demo_window = false;
 bool DirectX9Test::button1_clicked = false;
 bool DirectX9Test::show_app_main_menu_bar = false;
 bool DirectX9Test::toggle_text = false;
-bool DirectX9Test::dark_mode = false;
+bool DirectX9Test::dark_mode = true; // I have dark mode enabled, I'll leave this to true.
 bool DirectX9Test::define_test = false;
 bool DirectX9Test::list_values = false;
 
 //
+
+// TODO Setup test for storing an array of pointers
+
+// TODO Try to play around with PS3 homebrew or Nintendo Switch homebrew.
 
 void MainMenu::MainMenuTest() {
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -57,6 +59,13 @@ void MainMenu::MainMenuTest() {
 		{
 			ImGui::BulletText("Hello, this should show up.");
 			ImGui::Separator();
+
+			// This works
+			if (ImGui::Button("Windows Msg Box"))
+			{
+				MessageBox(NULL, TEXT("Hello From ImGui, a MessageBox"),
+					TEXT("KCNet-ImGuiTest"), MB_OK);
+			}
 
 			// Menu toggle button
 			if (ImGui::Button("Menu toggle"))
@@ -114,14 +123,35 @@ void MainMenu::MainMenuTest() {
 			// This below works for a dark mode toggle.
 			// 5-16-2024 @ 9:14PM
 
+			/////////////
+			// Dark mode toggle
+			/////////////
+
 #ifndef _TEST
 #define _TEST
 #endif
 
 
 #ifdef _TEST
-					// Well the checkbox is inverted lol, oh well I'll fix it later.
-					// If it is checked it turns off dark mode, I guess its because I have dark mode as the default theme.
+			if (ImGui::Checkbox("Dark Mode", &DirectX9Test::dark_mode))
+			{
+				if (DirectX9Test::dark_mode)
+				{
+
+					ImGui::StyleColorsDark();
+					ImGui::BulletText("On");
+				}
+				else
+				{
+					ImGui::StyleColorsLight();
+					ImGui::BulletText("Off");
+				}
+			}
+			ImGui::SameLine();
+			// Added some spacing to this
+			ImGui::Text("      Enabled by default for KCNet-ImGui");
+
+#else
 			if (!ImGui::Checkbox("Dark Mode", &DirectX9Test::dark_mode))
 			{
 				if (!DirectX9Test::dark_mode)
@@ -134,27 +164,13 @@ void MainMenu::MainMenuTest() {
 				{
 					ImGui::StyleColorsLight();
 					ImGui::BulletText("Off");
-				}
-			}
-
-#else
-			ImGui::Checkbox("Dark Mode", &dark_mode);
-			if (dark_mode)
-			{
-				ImGui::StyleColorsLight();
-				ImGui::BulletText("Off");
-			}
-			else
-			{
-				ImGui::StyleColorsDark();
-
-				ImGui::BulletText("On");
+		}
 			}
 #endif //_TEST
 			// Disable preprocessor
 #undef _TEST
 
-					// This works for toggling the demo window on and off
+			// This works for toggling the demo window on and off
 			ImGui::Checkbox("Demo window", &DirectX9Test::show_demo_window);
 
 			// Possibly implement feature to read from a text file and write it to some output box.
@@ -182,22 +198,13 @@ void MainMenu::MainMenuTest() {
 			else
 				ImGui::Text("Mouse pos: <INVALID>");
 
-			//if (ImGui::Checkbox("Show Text", &toggle_text)) 
-			//{
-			//    ImGui::BulletText("Hello");
-			//} 
-			//else
-			//{
-			//    ImGui::BulletText("Hola");
-			//}
-
-
 			// How do I update this text in code?
 			// Like if a button is pressed.
 			//ImGui::Separator();
 			//ImGui::BulletText("Test");
 
 			// I'm quite sure this will only work on Windows, will need tested on Linux once I get opengl working.
+			// Yeah this uses WinUser.h which is windows specific
 #ifdef _WIN32
 
 			static bool test = false;
@@ -240,28 +247,32 @@ void MainMenu::MainMenuTest() {
 
 				//for (int i =0; i< keyboard_chars_enum)
 				// This one didn't work
-				//for (int i = 0; i < input; i++) {
-				//	if (GetKeyState(i) & 0x8000)
-				//		ImGui::Text(i + " key was pressed");
-				//}
+#ifdef _TEST
+				for (int i = 0; i < input; i++) {
+					if (GetKeyState(i) & 0x8000)
+						ImGui::Text(i + " key was pressed");
+				}
 
-
+#else
 				// This works
-				//if (GetKeyState('A') & 0x8000)
-				//{
-				//	ImGui::Text("A Key pressed");
-				//}
+				if (GetKeyState('A') & 0x8000)
+				{
+					ImGui::Text("A Key pressed");
+				}
 
-				//if (GetKeyState(VK_SHIFT) & 0x8000)
-				//{
-				//	ImGui::Text("Shift Key pressed");
-				//}
+				if (GetKeyState(VK_SHIFT) & 0x8000)
+				{
+					ImGui::Text("Shift Key pressed");
+				}
+#endif //_TEST
+
+
 				//
 			}
-			else
-			{
-				ImGui::Text("Goodbye");
-			}
+			//else
+			//{
+			//	ImGui::Text("Goodbye");
+			//}
 #endif //_WIN32
 
 
@@ -288,13 +299,15 @@ void MainMenu::MainMenuTest() {
 
 				//Sleep(2000);
 				// This spams the console too much.
-				KeyStates::test();
+				//KeyStates::test();
 			}
 			else
 			{
 				ImGui::Text("Disabled");
 			}
 		}
+
+		ImGui::Separator();
 
 		// This works for a column, having multiple items on the same row.
 		ImGui::Columns(2);

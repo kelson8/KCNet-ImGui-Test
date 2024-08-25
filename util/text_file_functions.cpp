@@ -60,8 +60,11 @@ void TextFileFunctions::readTextFile(std::string file)
 #ifdef _TEST
 void TextFileFunctions::printTextOutput(std::string file)
 {
+    //std::string line;
+    //std::string line[1000];
     std::string line;
     std::ifstream myfile(file);
+
 
     if (TextFileFunctions::fileExistCheck(file))
     {

@@ -212,6 +212,12 @@
       <AdditionalDependencies>d3d9.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Directx9|Win32'">
+    <Link>
+      <AdditionalLibraryDirectories>.\lib\KCNet-TestDll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>KCNet-TestDll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="lib\ImGui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -223,8 +229,10 @@
     <ClCompile Include="lib\ImGui\imgui_tables.cpp" />
     <ClCompile Include="lib\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="menus\main_menu.cpp" />
+    <ClCompile Include="test\constructor_test.cpp" />
     <ClCompile Include="test\directx9_test.cpp" />
     <ClCompile Include="test\opengl_test.cpp" />
+    <ClCompile Include="menus\text_menu.cpp" />
     <ClCompile Include="util\keystates.cpp" />
     <ClCompile Include="util\text_file_functions.cpp" />
     <ClCompile Include="util\text_functions.cpp" />
@@ -242,8 +250,10 @@
     <ClInclude Include="lib\ImGui\imstb_truetype.h" />
     <ClInclude Include="menus\main_menu.h" />
     <ClInclude Include="menus\pch.h" />
+    <ClInclude Include="test\constructor_test.h" />
     <ClInclude Include="test\directx9_test.h" />
     <ClInclude Include="test\opengl_test.h" />
+    <ClInclude Include="menus\text_menu.h" />
     <ClInclude Include="util\keystates.h" />
     <ClInclude Include="util\text_file_functions.h" />
     <ClInclude Include="util\text_functions.h" />

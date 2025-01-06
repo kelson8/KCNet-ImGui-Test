@@ -3,6 +3,10 @@
 #include <fstream>
 #include "text_file_functions.h"
 
+// Add in ImGui for output text file to screen.
+#include "imgui.h"
+#include "imgui_impl_dx9.h"
+
 // Checking if the file exists breaks without this
 // https://stackoverflow.com/questions/19321804/this-function-or-variable-may-be-unsafe-visual-studio
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
@@ -56,12 +60,38 @@ void TextFileFunctions::readTextFile(std::string file)
 #define _TEST
 #endif
 
+// This works
+// Some code from Google AI:///
+void TextFileFunctions::outputTextFileContents(const char* filePath) {
+    std::ifstream myfile(filePath);
+
+    if (myfile.is_open())
+    {
+        std::string line;
+        std::string content;
+
+        // Output file contents
+        while (std::getline(myfile, line))
+        {
+            content += line + "\n";
+        }
+        // Close the file
+        myfile.close();
+
+        ImGui::Text("\"%s\" File contents: \n%s", filePath, &content);
+        //ImGui::InputTextMultiline();
+    }
+    else
+    {
+        ImGui::Text("Error opening file %s", filePath);
+    }
+}
+
 // Add test function for this, I need to figure out how to return an array like this.
 #ifdef _TEST
+// This prints the text file output to the console but spams it, I probably won't use this much.
 void TextFileFunctions::printTextOutput(std::string file)
 {
-    //std::string line;
-    //std::string line[1000];
     std::string line;
     std::ifstream myfile(file);
 
@@ -72,7 +102,8 @@ void TextFileFunctions::printTextOutput(std::string file)
         {
             while (std::getline(myfile, line))
             {
-                std::cout << line << '\n';
+                // Disabled for now
+                //std::cout << line << '\n';
                 //return line;
             }
 

@@ -31,9 +31,13 @@ void TextMenu::TextMainMenu() {
 
 	if(show_text)
 	{
-		TextFileFunctions::printTextOutput("test.txt");
-		//ImGui::Text(TextFileFunctions::printTextOutput("test.txt"));
+		// This just spams the console.
+		//TextFileFunctions::printTextOutput("test.txt");
 		
+		// This works!!!
+		// Why? I didn't think this would print multiple lines.
+		//outputTextFileContents("test.txt");
+		TextFileFunctions::outputTextFileContents("test.txt");
 	}
 
 

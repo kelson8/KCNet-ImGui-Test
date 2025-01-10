@@ -30,7 +30,7 @@
 #if _WIN32
 #include "imgui_impl_win32.h"
 #include <Windows.h>
-#include "../util/keystates.h"
+#include "./util/keystates.h"
 #endif
 //
 
@@ -42,13 +42,29 @@
 #include <fstream>
 
 // Util
-#include "../util/text_file_functions.h"
-#include "../util/text_functions.h"
+#include "./util/text_file_functions.h"
+#include "./util/text_functions.h"
 //
 // Menus
-#include "../menus/main_menu.h"
-#include "../menus/text_menu.h"
+#include "./menus/main_menu.h"
+#include "./menus/text_menu.h"
+
+// Enums, menu title and etc.
+// TODO Move into main source folder
+#include "./test/defines.h"
+
+
+#include "./util/helpers.h"
+
+// TODO Move into ../menus/http_menu.h
+#include "./test/http_lib_test.h"
 //
+
+// Switch to using helpers.cpp for helper functions.
+//#define _TEST2
+
+// TODO Create src folder for project, move source files into it
+// TODO Possibly create headers folder for project.
 
 // https://www.geeksforgeeks.org/macros-and-its-types-in-c-cpp/
 // Test macros
@@ -60,15 +76,20 @@
 #endif
 
 // Data
+// TODO Move into helpers.cpp or helpers.h
+#ifndef _TEST2 //!_TEST2
 static LPDIRECT3D9              g_pD3D = nullptr;
 static LPDIRECT3DDEVICE9        g_pd3dDevice = nullptr;
 static UINT                     g_ResizeWidth = 0, g_ResizeHeight = 0;
 static D3DPRESENT_PARAMETERS    g_d3dpp = {};
+#endif //_!_TEST2
 
 // Forward declarations of helper functions
+#ifndef _TEST2 //!_TEST2
 bool CreateDeviceD3D(HWND hWnd);
 void CleanupDeviceD3D();
 void ResetDevice();
+#endif //!_TEST2
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 static void HelpMarker(const char* desc)
@@ -149,49 +170,92 @@ static void ShowWindow(bool* p_open)
 
 }
 
-// Main code
-void DirectX9Test::directX9Test()
+static void CreateApplicationWindow()
 {
 
-	// Define custom booleans and features.
-	TextMenu *textMenu = new TextMenu();
+}
 
-#ifdef _TEST
-	//std::cout << testString1();
-#endif
-
-	// Create application window
-	//ImGui_ImplWin32_EnableDpiAwareness();
-	WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"KCNet ImGui", nullptr };
-	::RegisterClassExW(&wc);
-	HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"KCNet ImGui", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, nullptr, nullptr, wc.hInstance, nullptr);
-
+static void InitializeD3D(HWND hwnd, WNDCLASSEXW wc)
+{
 	// Initialize Direct3D
+
+#ifndef _TEST2 //!_TEST2
 	if (!CreateDeviceD3D(hwnd))
+#else
+	if (!Helpers::CreateDeviceD3D(hwnd))
+#endif //!_TEST2
 	{
+#ifndef _TEST2 //!_TEST2
 		CleanupDeviceD3D();
+#else
+		Helpers::CleanupDeviceD3D();
+#endif //!_TEST2
 		::UnregisterClassW(wc.lpszClassName, wc.hInstance);
 		//return 1;
 	}
 
+
+}
+
+static void ShowWindow(HWND hwnd)
+{
 	// Show the window
 	::ShowWindow(hwnd, SW_SHOWDEFAULT);
 	::UpdateWindow(hwnd);
+}
 
+static void Render(ImVec4 clear_color)
+{
+#ifndef _TEST2 //!_TEST2
+	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+	g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	g_pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+	D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x * clear_color.w * 255.0f), (int)(clear_color.y * clear_color.w * 255.0f), (int)(clear_color.z * clear_color.w * 255.0f), (int)(clear_color.w * 255.0f));
+	g_pd3dDevice->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, clear_col_dx, 1.0f, 0);
+	if (g_pd3dDevice->BeginScene() >= 0)
+	{
+		ImGui::Render();
+		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+		g_pd3dDevice->EndScene();
+	}
+	HRESULT result = g_pd3dDevice->Present(nullptr, nullptr, nullptr, nullptr);
+
+	// Handle loss of D3D9 device
+	if (result == D3DERR_DEVICELOST && g_pd3dDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
+
+#else
+	Helpers::g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+	Helpers::g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	Helpers::g_pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+	D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x * clear_color.w * 255.0f), (int)(clear_color.y * clear_color.w * 255.0f), (int)(clear_color.z * clear_color.w * 255.0f), (int)(clear_color.w * 255.0f));
+	Helpers::g_pd3dDevice->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, clear_col_dx, 1.0f, 0);
+	if (Helpers::g_pd3dDevice->BeginScene() >= 0)
+	{
+		ImGui::Render();
+		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+		Helpers::g_pd3dDevice->EndScene();
+	}
+	HRESULT result = Helpers::g_pd3dDevice->Present(nullptr, nullptr, nullptr, nullptr);
+
+	// Handle loss of D3D9 device
+	if (result == D3DERR_DEVICELOST && Helpers::g_pd3dDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
+#endif //!_TEST2
+
+#ifndef _TEST2 //!_TEST2
+		ResetDevice();
+#else
+		Helpers::ResetDevice();
+#endif //_TEST2
+}
+
+void setupContext()
+{
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
-	//ImGui::StyleColorsLight();
-
-	// Setup Platform/Renderer backends
-	ImGui_ImplWin32_Init(hwnd);
-	ImGui_ImplDX9_Init(g_pd3dDevice);
 
 	// Load Fonts
 	// - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
@@ -201,13 +265,64 @@ void DirectX9Test::directX9Test()
 	// - Use '#define IMGUI_ENABLE_FREETYPE' in your imconfig file to use Freetype for higher quality font rendering.
 	// - Read 'docs/FONTS.md' for more instructions and details.
 	// - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
-	//io.Fonts->AddFontDefault();
+	io.Fonts->AddFontDefault();
+	io.Fonts->AddFontFromFileTTF("./lib/ImGui/misc/fonts/DroidSans.ttf", 16.0f);
 	//io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 18.0f);
 	//io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
 	//io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
 	//io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
 	//ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
 	//IM_ASSERT(font != nullptr);
+}
+
+
+
+// Main code
+
+// TODO Fix this not to break when imgui_impl_glfw.cpp and imgui_impl_glfw.h is included.
+// Found the fix for OpenGL here: https://github.com/ocornut/imgui/issues/1299
+void DirectX9Test::directX9Test()
+{
+
+	// Define custom booleans and features.
+	TextMenu *textMenu = new TextMenu();
+	Defines* defines = new Defines();
+
+#ifdef _TEST
+	//std::cout << testString1();
+#endif
+
+	// Move window title into here.
+	// TODO Make this grab from a enum or something.
+	//const wchar_t* window_title = L"KCNet ImGui";
+
+	// Create application window
+	//ImGui_ImplWin32_EnableDpiAwareness();
+	WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, defines->window_title, nullptr };
+	::RegisterClassExW(&wc);
+	HWND hwnd = ::CreateWindowW(wc.lpszClassName, defines->window_title, WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, nullptr, nullptr, wc.hInstance, nullptr);
+
+	// Initialize Direct3D
+	InitializeD3D(hwnd, wc);
+
+	// Show the window
+	ShowWindow(hwnd);
+
+	// Setup Dear ImGui context
+	setupContext();
+
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
+	//ImGui::StyleColorsLight();
+
+	// Setup Platform/Renderer backends
+	ImGui_ImplWin32_Init(hwnd);
+#ifndef _TEST2
+	ImGui_ImplDX9_Init(g_pd3dDevice);
+#else
+	ImGui_ImplDX9_Init(Helpers::g_pd3dDevice);
+#endif //!_TEST2
+
 
 	// Our state
 	//bool show_demo_window = true;
@@ -239,13 +354,26 @@ void DirectX9Test::directX9Test()
 		if (done)
 			break;
 
+#ifndef _TEST2
 		// Handle window resize (we don't resize directly in the WM_SIZE handler)
 		if (g_ResizeWidth != 0 && g_ResizeHeight != 0)
 		{
 			g_d3dpp.BackBufferWidth = g_ResizeWidth;
 			g_d3dpp.BackBufferHeight = g_ResizeHeight;
 			g_ResizeWidth = g_ResizeHeight = 0;
+#else
+		if (Helpers::g_ResizeWidth != 0 && Helpers::g_ResizeHeight != 0)
+		{
+			Helpers::g_d3dpp.BackBufferWidth = Helpers::g_ResizeWidth;
+			Helpers::g_d3dpp.BackBufferHeight = Helpers::g_ResizeHeight;
+			Helpers::g_ResizeWidth = Helpers::g_ResizeHeight = 0;
+#endif //!_TEST2
+
+#ifndef _TEST2
 			ResetDevice();
+#else
+			Helpers::ResetDevice();
+#endif //!_TEST2
 		}
 
 		// Start the Dear ImGui frame
@@ -261,9 +389,13 @@ void DirectX9Test::directX9Test()
 //#define _OLD_CODE
 
 
-		if (ImGui::Begin("KCNet ImGui", nullptr, ImGuiWindowFlags_MenuBar))
+//***************
+// Start of ImGui code
+//***************
+		//if (ImGui::Begin("KCNet ImGui", nullptr, ImGuiWindowFlags_MenuBar))
+		if (ImGui::Begin(defines->imgui_window_name, nullptr, ImGuiWindowFlags_MenuBar))
 		{
-
+			// Show the main menu
 			MainMenu::MainMenuTest();
 
 
@@ -274,6 +406,27 @@ void DirectX9Test::directX9Test()
 				textMenu->TextMainMenu();
 			}
 			// End Text file functions test menu
+			
+			// HTTP Test menu, doesn't work
+#ifdef _TEST1
+			if (ImGui::CollapsingHeader("Http Test")) {
+				bool show_html = false;
+				// TODO Move this to using
+				// httpTestMenu->HttpTestMainMenu();
+				ImGui::Checkbox("Test", &show_html);
+
+				if (show_html)
+				{
+					//ImGui::Text(HttpTest::test);
+					HttpTest::test();
+				}
+
+
+
+			}
+#endif //_TEST1
+			// End http test menu
+			
 
 			//if (ImGui::BeginMenu("My menu"))
 			//{
@@ -288,37 +441,39 @@ void DirectX9Test::directX9Test()
 		// End ImGui
 		ImGui::End();
 
-		// Rendering
 		ImGui::EndFrame();
-		g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
-		g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-		g_pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
-		D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x * clear_color.w * 255.0f), (int)(clear_color.y * clear_color.w * 255.0f), (int)(clear_color.z * clear_color.w * 255.0f), (int)(clear_color.w * 255.0f));
-		g_pd3dDevice->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, clear_col_dx, 1.0f, 0);
-		if (g_pd3dDevice->BeginScene() >= 0)
-		{
-			ImGui::Render();
-			ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-			g_pd3dDevice->EndScene();
-		}
-		HRESULT result = g_pd3dDevice->Present(nullptr, nullptr, nullptr, nullptr);
+//***************
+// End of ImGui code
+//***************
 
-		// Handle loss of D3D9 device
-		if (result == D3DERR_DEVICELOST && g_pd3dDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
-			ResetDevice();
+		// Rendering
+		
+		Render(clear_color);
 }
 
+	// Shutdown ImGui
 	ImGui_ImplDX9_Shutdown();
 	ImGui_ImplWin32_Shutdown();
+	// Destroy ImGui Context
 	ImGui::DestroyContext();
 
+
+	// Cleanup D3D Device
+#ifndef _TEST2
 	CleanupDeviceD3D();
+#else
+	Helpers::CleanupDeviceD3D();
+#endif
+	
 	::DestroyWindow(hwnd);
 	::UnregisterClassW(wc.lpszClassName, wc.hInstance);
 }
 
+// End Main class
+
 // Helper functions
 
+#ifndef _TEST2
 bool CreateDeviceD3D(HWND hWnd)
 {
 	if ((g_pD3D = Direct3DCreate9(D3D_SDK_VERSION)) == nullptr)
@@ -354,6 +509,8 @@ void ResetDevice()
 	ImGui_ImplDX9_CreateDeviceObjects();
 }
 
+#endif //!_TEST2
+
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -372,8 +529,14 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_SIZE:
 		if (wParam == SIZE_MINIMIZED)
 			return 0;
+#ifndef _TEST2
 		g_ResizeWidth = (UINT)LOWORD(lParam); // Queue resize
 		g_ResizeHeight = (UINT)HIWORD(lParam);
+#else
+		Helpers::g_ResizeWidth = (UINT)LOWORD(lParam); // Queue resize
+		Helpers::g_ResizeHeight = (UINT)HIWORD(lParam);
+		
+#endif //!_TEST2
 		return 0;
 	case WM_SYSCOMMAND:
 		if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu

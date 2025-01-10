@@ -4,7 +4,7 @@
 #if _WIN32
 #include "imgui_impl_win32.h"
 #include <Windows.h>
-#include "../util/keystates.h"
+#include "./util/keystates.h"
 #endif
 
 #include <d3d9.h>
@@ -14,16 +14,28 @@
 #include <iostream>
 #include <fstream>
 
-#include "../util/text_file_functions.h"
-#include "../test/directx9_test.h"
-#include "../util/text_functions.h"
-#include "main_menu.h"
+
+// Utility functions
+#include "./util/text_functions.h"
+#include "./util/text_file_functions.h"
+
+// Test functions
+#include "./test/directx9_test.h"
+// New test
+#include "./test/constructor_test.h"
+// OpenGL
+#include "./test/opengl_test.h"
+
+// Menus
+#include "./menus/main_menu.h"
 
 // https://www.geeksforgeeks.org/macros-and-its-types-in-c-cpp/
 // Test macros
 #define LIMIT 5
 
 // Boolean values
+// DirectX9Test
+
 bool DirectX9Test::show_demo_window = false;
 bool DirectX9Test::button1_clicked = false;
 bool DirectX9Test::show_app_main_menu_bar = false;
@@ -32,17 +44,48 @@ bool DirectX9Test::dark_mode = true; // I have dark mode enabled, I'll leave thi
 bool DirectX9Test::define_test = false;
 bool DirectX9Test::list_values = false;
 
+
+// OpenGLTest
+bool OpenGLTest::show_demo_window = false;
 //
 
 // TODO Setup test for storing an array of pointers
 
 // TODO Try to play around with PS3 homebrew or Nintendo Switch homebrew.
 
+
+// This doesn't work
+#ifdef _TEST1
+/// <summary>
+/// Testing vsprintf_s
+/// https://www.educative.io/answers/what-is-vsprintfs-in-c
+/// </summary>
+/// <returns></returns>
+
+int call_vsprintf_s(char* buffer, size_t numberOfElements, char* format)
+{
+	int result;
+	va_list argList;
+	va_start(argList, format);
+	result = vsprintf_s(buffer, numberOfElements, format, argList);
+	va_end(argList);
+	return result;
+}
+#endif //_TEST1
+
+// Enable this for test constructor once I get it fixed.
+//#define _TEST1
+
 void MainMenu::MainMenuTest() {
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 
 	//if (ImGui::Begin("KCNet ImGui", nullptr, ImGuiWindowFlags_MenuBar))
 	//{
+		
+	// Constructor test, kills ImGui.
+#ifdef _TEST1 // TODO Fixme
+	Car car1("Ford", "Mustang", 1969);
+#endif //_TEST1
 		// Menu bar
 		if (ImGui::BeginMenuBar())
 		{
@@ -60,7 +103,17 @@ void MainMenu::MainMenuTest() {
 			ImGui::BulletText("Hello, this should show up.");
 			ImGui::Separator();
 
-			// This works
+
+			// TODO Fix constructor test to work, this kills it instantly when opening test1.
+#ifdef _TEST1 // TODO Fixme
+			ImGui::BulletText("Car brand: %s, Car type: %s, Car year: %s", car1.brand, car1.model, car1.year);
+			//ImGui::Text("Car brand: %s, Car type: %s, Car year: %s", car1.brand, car1.model, car1.year);
+#endif //_TEST1
+
+//#undef _TEST1
+
+
+			// This works, freezes the window until clicked though.
 			if (ImGui::Button("Windows Msg Box"))
 			{
 				MessageBox(NULL, TEXT("Hello From ImGui, a MessageBox"),
@@ -127,9 +180,11 @@ void MainMenu::MainMenuTest() {
 			// Dark mode toggle
 			/////////////
 
+// Is this really needed?
 #ifndef _TEST
 #define _TEST
 #endif
+			
 
 
 #ifdef _TEST
@@ -171,7 +226,14 @@ void MainMenu::MainMenuTest() {
 #undef _TEST
 
 			// This works for toggling the demo window on and off
+#ifdef _OPENGL
+			ImGui::Checkbox("Demo window", &OpenGLTest::show_demo_window);
+#endif
+
+#ifdef _DIRECTX9
 			ImGui::Checkbox("Demo window", &DirectX9Test::show_demo_window);
+#endif
+			
 
 			// Possibly implement feature to read from a text file and write it to some output box.
 			//ImGui::Text("Test");
@@ -289,7 +351,9 @@ void MainMenu::MainMenuTest() {
 			//#undef _TEST
 
 
+			// Oh this is how I'm doing checkboxes.
 
+			// Lists out the values from the charTest
 			ImGui::Checkbox("List values", &DirectX9Test::list_values);
 
 			if (DirectX9Test::list_values)
@@ -305,9 +369,30 @@ void MainMenu::MainMenuTest() {
 			{
 				ImGui::Text("Disabled");
 			}
+			//
 		}
 
 		ImGui::Separator();
+
+
+		// New
+
+		const int vsprintBufferSize = 1024;
+		char* vsPrintBuffer = new char[vsprintBufferSize];
+		if (ImGui::CollapsingHeader("test2")) 
+		{
+			// Disabled, doesn't work.
+#ifdef _TEST1
+			if (ImGui::Button("Test")) 
+			{
+				char format[] = "Hello %s";
+				std::cout << "Hello" << std::endl;
+
+				call_vsprintf_s(vsPrintBuffer, 15, format);
+			}
+#endif //_TEST1
+		}
+		//
 
 		// This works for a column, having multiple items on the same row.
 		ImGui::Columns(2);
@@ -318,3 +403,4 @@ void MainMenu::MainMenuTest() {
 		ImGui::Columns(1);
 	//}
 }
+

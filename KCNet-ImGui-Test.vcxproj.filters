@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ImGui\imgui.cpp">
+      <Filter>src\lib\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ImGui\imgui_demo.cpp">
+      <Filter>src\lib\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ImGui\imgui_draw.cpp">
+      <Filter>src\lib\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ImGui\backends\imgui_impl_dx9.cpp">
+      <Filter>src\lib\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ImGui\backends\imgui_impl_win32.cpp">
+      <Filter>src\lib\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ImGui\backends\imgui_impl_opengl3.cpp">
+      <Filter>src\lib\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ImGui\imgui_tables.cpp">
+      <Filter>src\lib\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ImGui\imgui_widgets.cpp">
+      <Filter>src\lib\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\helpers.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\keystates.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\text_file_functions.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\text_functions.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\opengl_test.cpp">
+      <Filter>src\test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\http_lib_test.cpp">
+      <Filter>src\test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\directx9_test.cpp">
+      <Filter>src\test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\curl_test.cpp">
+      <Filter>src\test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\constructor_test.cpp">
+      <Filter>src\test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menus\main_menu.cpp">
+      <Filter>src\menus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menus\text_menu.cpp">
+      <Filter>src\menus</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="lib\ImGui\imconfig.h">
+      <Filter>src\lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ImGui\imgui.h">
+      <Filter>src\lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ImGui\backends\imgui_impl_dx9.h">
+      <Filter>src\lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ImGui\backends\imgui_impl_opengl3_loader.h">
+      <Filter>src\lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ImGui\backends\imgui_impl_opengl3.h">
+      <Filter>src\lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ImGui\imgui_internal.h">
+      <Filter>src\lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ImGui\backends\imgui_impl_win32.h">
+      <Filter>src\lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ImGui\imstb_rectpack.h">
+      <Filter>src\lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ImGui\imstb_textedit.h">
+      <Filter>src\lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ImGui\imstb_truetype.h">
+      <Filter>src\lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\helpers.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\keystates.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\text_file_functions.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\text_functions.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\opengl_test.h">
+      <Filter>src\test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\http_lib_test.h">
+      <Filter>src\test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\directx9_test.h">
+      <Filter>src\test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\defines.h">
+      <Filter>src\test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\curl_test.h">
+      <Filter>src\test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\constructor_test.h">
+      <Filter>src\test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\menus\main_menu.h">
+      <Filter>src\menus</Filter>
+    </ClInclude>
+    <ClInclude Include="src\menus\pch.h">
+      <Filter>src\menus</Filter>
+    </ClInclude>
+    <ClInclude Include="src\menus\text_menu.h">
+      <Filter>src\menus</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{96d2e389-bfd0-443a-af14-d02226755b89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util">
+      <UniqueIdentifier>{74c54db3-2a79-45b7-ace5-bcbf01fa1044}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\test">
+      <UniqueIdentifier>{caee360c-2fdb-4dc0-b9d0-11cc1c076d58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\menus">
+      <UniqueIdentifier>{f4aa985e-3c6f-454e-b800-c186b9f15084}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\lib">
+      <UniqueIdentifier>{980dc627-529c-4841-abd5-7fa717911800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\include">
+      <UniqueIdentifier>{91557761-2f06-4a06-b8fa-506b1ae06724}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\lib\ImGui">
+      <UniqueIdentifier>{1804e534-3e6f-47ec-bf39-30070e52ce27}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lib\ImGui\backends\imgui_impl_metal.mm">
+      <Filter>src\lib\ImGui</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -4,7 +4,7 @@
 #if _WIN32
 #include "imgui_impl_win32.h"
 #include <Windows.h>
-#include "../util/keystates.h"
+#include "./util/keystates.h"
 #endif
 
 #include <d3d9.h>
@@ -14,9 +14,14 @@
 #include <iostream>
 #include <fstream>
 
-#include "../util/text_file_functions.h"
-#include "../test/directx9_test.h"
-#include "text_menu.h"
+// Utility functions
+#include "./util/text_file_functions.h"
+
+// Test functions
+#include "./test/directx9_test.h"
+
+// Menus
+#include "./menus/text_menu.h"
 
 bool show_text = false;
 

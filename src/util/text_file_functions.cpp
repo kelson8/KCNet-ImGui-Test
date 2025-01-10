@@ -62,6 +62,8 @@ void TextFileFunctions::readTextFile(std::string file)
 
 // This works
 // Some code from Google AI:///
+
+// TODO Fix this to work on OpenGL test, it only works on the DirectX9 one.
 void TextFileFunctions::outputTextFileContents(const char* filePath) {
     std::ifstream myfile(filePath);
 
@@ -87,8 +89,6 @@ void TextFileFunctions::outputTextFileContents(const char* filePath) {
     }
 }
 
-// Add test function for this, I need to figure out how to return an array like this.
-#ifdef _TEST
 // This prints the text file output to the console but spams it, I probably won't use this much.
 void TextFileFunctions::printTextOutput(std::string file)
 {
@@ -126,42 +126,4 @@ void TextFileFunctions::printTextOutput(std::string file)
 //{
 //
 //}
-
-
-#else
-
-//static std::string testString1(std::string file std::string text)
-//std::string TextFileFunctions::testString1(std::string file)
-
-// This doesn't fully work yet, once I finish it, it'll show up on a ImGui tab.
-//std::string TextFileFunctions::printTextOutput(std::string file)
-void TextFileFunctions::printTextOutput(std::string file)
-{
-    std::string line;
-    std::ifstream myfile(file);
-
-    if (TextFileFunctions::fileExistCheck(file))
-    {
-        if (myfile.is_open())
-        {
-            while (std::getline(myfile, line))
-            {
-                std::cout << line << '\n';
-                //return line;
-            }
-
-            //return line;
-            myfile.close();
-        }
-        else
-        {
-            std::cout << "Unable to open file!";
-        }
-    }
-    else
-    {
-        std::cout << "File doesn't exist!";
-    }
-}
-#endif //_TEST
 

@@ -1,6 +1,8 @@
 
 // Test main method can go in here, can be useful for quick testing in the console.
 //#define _TEST
+// TODO Fix this to work... It just dies?
+// TODO Actually fix Linux support with CMake, make this build on Windows and Linux with CMake.
 #ifdef _TEST
 #include <string.h>
 #include <iostream>
@@ -22,7 +24,7 @@ int main(int, char**)
 // I moved the DirectX9 code into the test/directx9_test.cpp file,
 
 #ifdef _DIRECTX9
-#include "test/directx9_test.h"
+#include "./test/directx9_test.h"
 #endif //_DIRECTX9
 
 #ifdef _OPENGL
@@ -64,6 +66,9 @@ int main(int, char**)
 
 #ifdef _TEST1
 #ifdef _DIRECTX9
+
+    // I forgot about making a test DLL for this project.
+    // DLL initialize
     HINSTANCE hinstDLL;
     DLLPROC HelloWorld;
     BOOL fFreeDLL;
@@ -111,6 +116,8 @@ int main(int, char**)
         // Unload the dll
         fFreeDLL = FreeLibrary(hinstDLL);
     }
+
+    // End DLL initialize
 
 #endif //_DIRECTX9
 #endif //_TEST1

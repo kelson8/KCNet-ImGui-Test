@@ -3,6 +3,8 @@
 // Moving opengl test into this file until I'm ready to mess with it.
 // 5-25-2024 @ 12:21PM
 
+// TODO Fix this to work on Linux and Windows
+
 // https://www.reddit.com/r/cpp/comments/16scrps/at_what_point_in_your_c_development_do_you/
 
 #ifndef _OPENGL
@@ -21,6 +23,7 @@
 // - Documentation        https://dearimgui.com/docs (same as your local docs/ folder).
 // - Introduction, links and more at the top of imgui.cpp
 
+// ImGui and GLFW
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -30,6 +33,19 @@
 #include <GLES2/gl2.h>
 #endif
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
+
+// Test
+
+// This seems to be windows only
+#if _WIN32
+#include <tchar.h>
+#endif //_WIN32
+
+#include <string>
+#include <iostream>
+#include <fstream>
+//
+
 
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
 // To link with VS2010-era libraries, VS2015+ requires linking with legacy_stdio_definitions.lib, which we do using this pragma.
@@ -43,34 +59,77 @@
 #include "../libs/emscripten/emscripten_mainloop_stub.h"
 #endif
 
+// Util
+#include "../util/text_file_functions.h"
+#include "../util/text_functions.h"
+//
+// Menus
+#include "../menus/main_menu.h"
+#include "../menus/text_menu.h"
+
+
 static void glfw_error_callback(int error, const char* description)
 {
     fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }
 
+static void setupGlfw()
+{
+
+}
+
+static void Render(GLFWwindow* window, ImVec4 clear_color)
+{
+    ImGui::Render();
+    int display_w, display_h;
+    glfwGetFramebufferSize(window, &display_w, &display_h);
+    glViewport(0, 0, display_w, display_h);
+    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+    glClear(GL_COLOR_BUFFER_BIT);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    glfwSwapBuffers(window);
+}
+
+static void setupContext()
+{
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+}
+
 // Main code
 void OpenGLTest::openGLTest()
 {
+
+    // Define custom booleans and features.
+    TextMenu* textMenu = new TextMenu();
+    const char* window_title = "KCNet ImGui OpenGL";
+
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
 
-    // Decide GL+GLSL versions
+
+        // TODO Fix below to work, for now I have hard-coded "#version 130" into ImGui_ImplOpenGL3_Init
+        // Decide GL+GLSL versions
 #if defined(IMGUI_IMPL_OPENGL_ES2)
     // GL ES 2.0 + GLSL 100
-    const char* glsl_version = "#version 100";
+        const char* glsl_version = "#version 100";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
 #elif defined(__APPLE__)
     // GL 3.2 + GLSL 150
-    const char* glsl_version = "#version 150";
+        const char* glsl_version = "#version 150";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
 #else
     // GL 3.0 + GLSL 130
-    const char* glsl_version = "#version 130";
+        const char* glsl_version = "#version 130";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
@@ -78,29 +137,31 @@ void OpenGLTest::openGLTest()
 #endif
 
     // Create window with graphics context
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", nullptr, nullptr);
-    if (window == nullptr)
+    //GLFWwindow* window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(1280, 720, window_title, nullptr, nullptr);
+    if (window == nullptr) {
+        return;
+    }
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
 
-    // Setup Dear ImGui context
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    // Setup ImGui Context.
+    setupContext();
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsLight();
 
     // Setup Platform/Renderer backends
+    // Initialize ImGui
+
     ImGui_ImplGlfw_InitForOpenGL(window, true);
 #ifdef __EMSCRIPTEN__
     ImGui_ImplGlfw_InstallEmscriptenCanvasResizeCallback("#canvas");
 #endif
     //ImGui_ImplOpenGL3_Init(glsl_version);
     ImGui_ImplOpenGL3_Init("#version 130");
+    //
 
     // Load Fonts
     // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
@@ -120,11 +181,13 @@ void OpenGLTest::openGLTest()
     //IM_ASSERT(font != nullptr);
 
     // Our state
-    bool show_demo_window = true;
+    //bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+    // Show window
     // Main loop
+    bool done = false;
 #ifdef __EMSCRIPTEN__
     // For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the imgui.ini file.
     // You may manually call LoadIniSettingsFromMemory() to load settings from your own storage.
@@ -150,6 +213,28 @@ void OpenGLTest::openGLTest()
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
+
+        // TODO Make this part compatible between the OpenGL Test and the 
+        // DirectX9 test, I should be able to put this into a utilites file somewhere.
+
+#define _TEST
+
+#ifdef _TEST
+        if (ImGui::Begin("KCNet ImGui", nullptr, ImGuiWindowFlags_MenuBar)) 
+        {
+            // Show the main menu
+            MainMenu::MainMenuTest();
+
+            // Text file functions test menu
+            if (ImGui::CollapsingHeader("Text File Functions"))
+            {
+                textMenu->TextMainMenu();
+            }
+        }
+
+        // End ImGui
+        ImGui::End();
+#else
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
         {
             static float f = 0.0f;
@@ -182,19 +267,24 @@ void OpenGLTest::openGLTest()
                 show_another_window = false;
             ImGui::End();
         }
+#endif
 
         // Rendering
-        ImGui::Render();
-        int display_w, display_h;
-        glfwGetFramebufferSize(window, &display_w, &display_h);
-        glViewport(0, 0, display_w, display_h);
-        glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-        glClear(GL_COLOR_BUFFER_BIT);
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        // Test with local Render function
+        Render(window, clear_color);
 
-        glfwSwapBuffers(window);
+        //ImGui::Render();
+        //int display_w, display_h;
+        //glfwGetFramebufferSize(window, &display_w, &display_h);
+        //glViewport(0, 0, display_w, display_h);
+        //glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+        //glClear(GL_COLOR_BUFFER_BIT);
+        //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        //glfwSwapBuffers(window);
 
         ImGui::EndFrame();
+
+        
     }
 #ifdef __EMSCRIPTEN__
     EMSCRIPTEN_MAINLOOP_END;

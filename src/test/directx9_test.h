@@ -2,11 +2,9 @@
 #ifdef _WIN32
 #include <Windows.h>
 
+
 #ifdef _DIRECTX9
 #include <d3d9.h>
-#endif
-
-#endif
 
 class DirectX9Test {
 public:
@@ -31,3 +29,6 @@ public:
 	static UINT                     g_ResizeWidth, g_ResizeHeight;
 	static D3DPRESENT_PARAMETERS    g_d3dpp;
 };
+
+#endif // _DIRECTX9
+#endif //_WIN32

@@ -19,6 +19,13 @@
 #ifdef _TEST
 // Dear ImGui: standalone example application for DirectX 9
 
+// Modified by kelson8, now mostly everything is separated into it's own file to make this cleaner.
+// I have moved most imgui functions into imgui_functions.cpp, and most Directx stuff into helpers.cpp.
+// Most of this code came from the example here:
+// https://github.com/ocornut/imgui/blob/master/examples/example_win32_directx9/main.cpp
+
+// You can use that example above for an ImGui base like I did in this project.
+
 // Learn about Dear ImGui:
 // - FAQ                  https://dearimgui.com/faq
 // - Getting Started      https://dearimgui.com/getting-started

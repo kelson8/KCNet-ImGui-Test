@@ -5,6 +5,7 @@
 #endif
 //
 
+// TODO Fix this to work in the OpenGL test
 #ifdef _WIN32
 class Defines {
 private:

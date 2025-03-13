@@ -180,8 +180,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_OPENGL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>lib\imgui\;lib\imgui\backends;include\;.\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>lib\imgui\;lib\imgui\backends;include\;.\src;.\src\util;.\src\functions;.\src\menus;.\src\test;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <AssemblerOutput>AssemblyCode</AssemblerOutput>
       <AssemblerListingLocation>$(SolutionDir)asm\</AssemblerListingLocation>
     </ClCompile>

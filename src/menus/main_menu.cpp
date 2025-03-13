@@ -37,6 +37,8 @@
 // Boolean values
 // DirectX9Test
 
+// TODO Make this file compatible with DirectX9 and OpenGL.
+#ifdef _DIRECTX9
 bool DirectX9Test::show_demo_window = false;
 bool DirectX9Test::button1_clicked = false;
 bool DirectX9Test::show_app_main_menu_bar = false;
@@ -415,3 +417,4 @@ void MainMenu::MainMenuTest() {
 	//}
 }
 
+#endif

@@ -64,6 +64,9 @@
     <ClCompile Include="src\menus\vice_city_menu.cpp">
       <Filter>src\menus</Filter>
     </ClCompile>
+    <ClCompile Include="src\functions\imgui_functions.cpp">
+      <Filter>src\functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\ImGui\imconfig.h">
@@ -138,6 +141,9 @@
     <ClInclude Include="src\menus\vice_city_menu.h">
       <Filter>src\menus</Filter>
     </ClInclude>
+    <ClInclude Include="src\functions\imgui_functions.h">
+      <Filter>src\functions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -160,6 +166,9 @@
     </Filter>
     <Filter Include="src\lib\ImGui">
       <UniqueIdentifier>{1804e534-3e6f-47ec-bf39-30070e52ce27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\functions">
+      <UniqueIdentifier>{95eb670c-9521-4121-8c32-2817ecc4e7fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

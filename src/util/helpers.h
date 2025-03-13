@@ -23,6 +23,8 @@ public:
 	static bool CreateDeviceD3D(HWND hWnd);
 	static void CleanupDeviceD3D();
 	static void ResetDevice();
+
+	static void InitializeD3D(HWND hwnd, WNDCLASSEXW wc);
 #else
 	// Will this work on Linux or Mac? I don't think DirectX does.
 	//static bool CreateDeviceD3D();

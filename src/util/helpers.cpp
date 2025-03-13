@@ -11,7 +11,17 @@
 
 
 
-//-------------- DirectX9 Functions --------/
+//-------------- DirectX9 Functions --------------/
+
+void Helpers::InitializeD3D(HWND hwnd, WNDCLASSEXW wc)
+{
+	// Initialize Direct3D
+	if (!Helpers::CreateDeviceD3D(hwnd))
+	{
+		Helpers::CleanupDeviceD3D();
+		::UnregisterClassW(wc.lpszClassName, wc.hInstance);
+	}
+}
 
 bool Helpers::CreateDeviceD3D(HWND hWnd)
 {

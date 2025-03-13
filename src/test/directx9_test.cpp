@@ -14,6 +14,8 @@
 #endif
 
 #ifdef _DIRECTX9
+
+// TODO Why is this here?
 #ifdef _TEST
 // Dear ImGui: standalone example application for DirectX 9
 
@@ -59,6 +61,10 @@
 #include "http_lib_test.h"
 //
 
+// Imgui functions
+#include "imgui_functions.h"
+
+
 // TODO Create src folder for project, move source files into it
 // TODO Possibly create headers folder for project.
 
@@ -82,18 +88,6 @@ UINT                     DirectX9Test::g_ResizeWidth = 0, DirectX9Test::g_Resize
 D3DPRESENT_PARAMETERS    DirectX9Test::g_d3dpp = {};
 
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-static void HelpMarker(const char* desc)
-{
-	ImGui::TextDisabled("(?)");
-	if (ImGui::BeginItemTooltip())
-	{
-		ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-		ImGui::TextUnformatted(desc);
-		ImGui::PopTextWrapPos();
-		ImGui::EndTooltip();
-	}
-}
 
 // Windows specific features
 // https://stackoverflow.com/questions/41600981/how-do-i-check-if-a-key-is-pressed-on-c
@@ -138,51 +132,9 @@ std::string testString1()
 	return "The value of " + num1_string + " + " + num2_string + " = " + sum_string;
 }
 
-
-// imgui_demo line 256
-static void ShowWindow(bool* p_open)
-{
-	static bool show_main_menu = false;
-
-	if (show_main_menu)
-	{
-		if (ImGui::Begin("Test"))
-		{
-			ImGui::Text("Hello World!");
-		}
-	}
-
-	if (!ImGui::Begin("Test", p_open))
-	{
-
-		ImGui::End();
-		return;
-	}
-
-
-}
-
 static void CreateApplicationWindow()
 {
 
-}
-
-static void InitializeD3D(HWND hwnd, WNDCLASSEXW wc)
-{
-	// Initialize Direct3D
-	if (!Helpers::CreateDeviceD3D(hwnd))
-	{
-		Helpers::CleanupDeviceD3D();
-		::UnregisterClassW(wc.lpszClassName, wc.hInstance);
-		//return 1;
-	}
-}
-
-static void ShowWindow(HWND hwnd)
-{
-	// Show the window
-	::ShowWindow(hwnd, SW_SHOWDEFAULT);
-	::UpdateWindow(hwnd);
 }
 
 static void Render(ImVec4 clear_color)
@@ -206,35 +158,6 @@ static void Render(ImVec4 clear_color)
 		// Moved into helpers.cpp
 		Helpers::ResetDevice();
 }
-
-void setupContext()
-{
-	// Setup Dear ImGui context
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-
-	// Load Fonts
-	// - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
-	// - AddFontFromFileTTF() will return the ImFont* so you can store it if you need to select the font among multiple.
-	// - If the file cannot be loaded, the function will return a nullptr. Please handle those errors in your application (e.g. use an assertion, or display an error and quit).
-	// - The fonts will be rasterized at a given size (w/ oversampling) and stored into a texture when calling ImFontAtlas::Build()/GetTexDataAsXXXX(), which ImGui_ImplXXXX_NewFrame below will call.
-	// - Use '#define IMGUI_ENABLE_FREETYPE' in your imconfig file to use Freetype for higher quality font rendering.
-	// - Read 'docs/FONTS.md' for more instructions and details.
-	// - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
-	io.Fonts->AddFontDefault();
-	io.Fonts->AddFontFromFileTTF("./lib/ImGui/misc/fonts/DroidSans.ttf", 16.0f);
-	//io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 18.0f);
-	//io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
-	//io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
-	//io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
-	//ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
-	//IM_ASSERT(font != nullptr);
-}
-
-
 
 // Main code
 
@@ -262,13 +185,13 @@ void DirectX9Test::directX9Test()
 	HWND hwnd = ::CreateWindowW(wc.lpszClassName, defines->window_title, WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, nullptr, nullptr, wc.hInstance, nullptr);
 
 	// Initialize Direct3D
-	InitializeD3D(hwnd, wc);
+	Helpers::InitializeD3D(hwnd, wc);
 
 	// Show the window
-	ShowWindow(hwnd);
+	ImGuiFunctions::Main::ShowWindow(hwnd);
 
 	// Setup Dear ImGui context
-	setupContext();
+	ImGuiFunctions::Main::SetupContext();
 
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
@@ -340,7 +263,9 @@ void DirectX9Test::directX9Test()
 //***************
 // Start of ImGui code
 //***************
-		//if (ImGui::Begin("KCNet ImGui", nullptr, ImGuiWindowFlags_MenuBar))
+		
+		// TODO Possibly move this into it's own file, so it can be used
+		// in my DirectX9 test and OpenGL test with preprocessors.
 		if (ImGui::Begin(defines->imgui_window_name, nullptr, ImGuiWindowFlags_MenuBar))
 		{
 			// Show the main menu
@@ -372,44 +297,33 @@ void DirectX9Test::directX9Test()
 			}
 #endif //_TEST1
 			// End http test menu
-			
-
-			//if (ImGui::BeginMenu("My menu"))
-			//{
-			//    //ImGui::BulletText("You should see this");
-			//    ImGui::MenuItem("test", NULL);
-			//    ImGui::EndMenu();
-			//}
-
-
-
 	}
 		// End ImGui
 		ImGui::End();
 
 		ImGui::EndFrame();
-//***************
-// End of ImGui code
-//***************
+
 
 		// Rendering
 		
 		Render(clear_color);
+
+//***************
+// End of ImGui code
+//***************
 }
 
-	// Shutdown ImGui
-	ImGui_ImplDX9_Shutdown();
-	ImGui_ImplWin32_Shutdown();
-	// Destroy ImGui Context
-	ImGui::DestroyContext();
+	// Shutdown ImGui, and destory context.
+	ImGuiFunctions::Main::ShutDown();
 
 
 	// Cleanup D3D Device
 	// Moved into helpers.cpp
 	Helpers::CleanupDeviceD3D();
 	
-	::DestroyWindow(hwnd);
-	::UnregisterClassW(wc.lpszClassName, wc.hInstance);
+	// Destory ImGui window
+	ImGuiFunctions::Main::DestroyWindow(hwnd, wc);
+
 }
 
 // End Main class
@@ -424,6 +338,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	// This is required in all instances of ImGui, for the mouse and keyboard input I'm quite sure.
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
 		return true;
 
@@ -432,8 +347,6 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_SIZE:
 		if (wParam == SIZE_MINIMIZED)
 			return 0;
-		//g_ResizeWidth = (UINT)LOWORD(lParam); // Queue resize
-		//g_ResizeHeight = (UINT)HIWORD(lParam);
 		DirectX9Test::g_ResizeWidth = (UINT)LOWORD(lParam); // Queue resize
 		DirectX9Test::g_ResizeHeight = (UINT)HIWORD(lParam);
 
@@ -450,4 +363,6 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return ::DefWindowProcW(hWnd, msg, wParam, lParam);
 
 }
-#endif //!_DIRECTX9
+
+
+#endif //_DIRECTX9

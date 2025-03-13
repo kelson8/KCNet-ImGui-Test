@@ -8,7 +8,7 @@ This works in DirectX9, OpenGL doesn't work yet and is a work in progress.
 Here are some images of what this ImGui test is so far
 <details>
 <summary> Key Press Test </summary>
-<img src=screenshots/LightModeToggle.png?raw=true>
+<img src=screenshots/KeyPressTest.png?raw=true>
 </details>
 
 <details>
@@ -28,18 +28,12 @@ Here are some images of what this ImGui test is so far
 
 <details>
 <summary> Show demo window toggle </summary>
-<img src=screenshots/ReadFromTextFile.png?raw=true>
+<img src=screenshots/ShowDemoWindowToggle.png?raw=true>
 </details>
-
-<details>
-<summary> Show demo window toggle </summary>
-<img src=screenshots/ReadFromTextFile.png?raw=true>
-</details>
-
 
 <details>
 <summary> Show mouse position and List values checkbox  </summary>
-<img src=/screenshots/ShowMousePos.png>
+<img src=/screenshots/ShowMousePos.png?raw=true>
 </details>
 
 <!-- Light mode toggle

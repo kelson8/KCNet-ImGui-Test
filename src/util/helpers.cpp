@@ -4,6 +4,8 @@
 #include "imgui.h"
 #include "imgui_impl_dx9.h"
 
+
+#ifdef _TEST2
 // Data
 static LPDIRECT3D9              g_pD3D = nullptr;
 static LPDIRECT3DDEVICE9        g_pd3dDevice = nullptr;
@@ -13,6 +15,8 @@ static D3DPRESENT_PARAMETERS    g_d3dpp = {};
 // TODO Figure out if I can move these DirectX helpers into here.
 // If I define _TEST2 into directx9_test.cpp it'll switch everything to using this file
 // It crashes because g_d3dpp is a nullptr though
+
+
 
 bool Helpers::CreateDeviceD3D(HWND hWnd)
 {
@@ -48,3 +52,5 @@ void Helpers::ResetDevice()
 		IM_ASSERT(0);
 	ImGui_ImplDX9_CreateDeviceObjects();
 }
+
+#endif //_TEST2

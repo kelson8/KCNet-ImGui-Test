@@ -15,10 +15,10 @@
 #include <fstream>
 
 // Utility functions
-#include "./util/text_file_functions.h"
+#include "text_file_functions.h"
 
 // Test functions
-#include "./test/directx9_test.h"
+#include "directx9_test.h"
 
 // Menus
 #include "./menus/text_menu.h"

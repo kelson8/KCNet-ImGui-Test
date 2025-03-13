@@ -13,9 +13,6 @@
     <ClCompile Include="lib\ImGui\imgui_draw.cpp">
       <Filter>src\lib\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="lib\ImGui\backends\imgui_impl_dx9.cpp">
-      <Filter>src\lib\ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="lib\ImGui\backends\imgui_impl_win32.cpp">
       <Filter>src\lib\ImGui</Filter>
     </ClCompile>
@@ -59,6 +56,12 @@
       <Filter>src\menus</Filter>
     </ClCompile>
     <ClCompile Include="src\menus\text_menu.cpp">
+      <Filter>src\menus</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ImGui\backends\imgui_impl_dx9.cpp">
+      <Filter>src\lib\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menus\vice_city_menu.cpp">
       <Filter>src\menus</Filter>
     </ClCompile>
   </ItemGroup>
@@ -130,6 +133,9 @@
       <Filter>src\menus</Filter>
     </ClInclude>
     <ClInclude Include="src\menus\text_menu.h">
+      <Filter>src\menus</Filter>
+    </ClInclude>
+    <ClInclude Include="src\menus\vice_city_menu.h">
       <Filter>src\menus</Filter>
     </ClInclude>
   </ItemGroup>

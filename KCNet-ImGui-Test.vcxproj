@@ -180,7 +180,10 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_OPENGL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>lib\imgui\;lib\imgui\backends;include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>lib\imgui\;lib\imgui\backends;include\;.\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AssemblerOutput>AssemblyCode</AssemblerOutput>
+      <AssemblerListingLocation>$(SolutionDir)asm\</AssemblerListingLocation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -207,7 +210,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Directx9|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>lib\imgui\;lib\imgui\backends;.\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>lib\imgui\;lib\imgui\backends;.\src;.\src\test;.\src\util\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DIRECTX9</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -222,9 +225,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="lib\ImGui\backends\imgui_impl_dx9.cpp" />
     <ClCompile Include="lib\ImGui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="lib\ImGui\backends\imgui_impl_dx9.cpp" />
     <ClCompile Include="lib\ImGui\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="lib\ImGui\imgui.cpp" />
     <ClCompile Include="lib\ImGui\imgui_demo.cpp" />
@@ -233,6 +236,7 @@
     <ClCompile Include="lib\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="src\menus\main_menu.cpp" />
     <ClCompile Include="src\menus\text_menu.cpp" />
+    <ClCompile Include="src\menus\vice_city_menu.cpp" />
     <ClCompile Include="src\test\constructor_test.cpp" />
     <ClCompile Include="src\test\curl_test.cpp" />
     <ClCompile Include="src\test\directx9_test.cpp" />
@@ -247,6 +251,7 @@
     <ClInclude Include="src\menus\main_menu.h" />
     <ClInclude Include="src\menus\pch.h" />
     <ClInclude Include="src\menus\text_menu.h" />
+    <ClInclude Include="src\menus\vice_city_menu.h" />
     <ClInclude Include="src\test\constructor_test.h" />
     <ClInclude Include="src\test\curl_test.h" />
     <ClInclude Include="src\test\defines.h" />

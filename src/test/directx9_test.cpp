@@ -42,8 +42,8 @@
 #include <fstream>
 
 // Util
-#include "./util/text_file_functions.h"
-#include "./util/text_functions.h"
+#include "text_file_functions.h"
+#include "text_functions.h"
 //
 // Menus
 #include "./menus/main_menu.h"
@@ -51,13 +51,12 @@
 
 // Enums, menu title and etc.
 // TODO Move into main source folder
-#include "./test/defines.h"
-
+#include "defines.h"
 
 #include "./util/helpers.h"
 
 // TODO Move into ../menus/http_menu.h
-#include "./test/http_lib_test.h"
+#include "http_lib_test.h"
 //
 
 // Switch to using helpers.cpp for helper functions.
@@ -65,6 +64,8 @@
 
 // TODO Create src folder for project, move source files into it
 // TODO Possibly create headers folder for project.
+
+// TODO Get OpenGL test working and try to place it somewhere in the GZDoom game once I get it setup with CMake.
 
 // https://www.geeksforgeeks.org/macros-and-its-types-in-c-cpp/
 // Test macros
@@ -78,6 +79,9 @@
 // Data
 // TODO Move into helpers.cpp or helpers.h
 #ifndef _TEST2 //!_TEST2
+
+// TODO Make these public, add them into the header.
+// That should fix this to work in the helpers.cpp
 static LPDIRECT3D9              g_pD3D = nullptr;
 static LPDIRECT3DDEVICE9        g_pd3dDevice = nullptr;
 static UINT                     g_ResizeWidth = 0, g_ResizeHeight = 0;
@@ -123,6 +127,7 @@ bool isDown = keyState & 0x8000;
 //}
 //
 
+// TODO Move these test items into a functions file, separate everything out.
 int test()
 {
 	int num1 = 5;

@@ -4,7 +4,7 @@
 #if _WIN32
 #include "imgui_impl_win32.h"
 #include <Windows.h>
-#include "./util/keystates.h"
+#include "keystates.h"
 #endif
 
 #include <d3d9.h>
@@ -14,20 +14,21 @@
 #include <iostream>
 #include <fstream>
 
-
 // Utility functions
-#include "./util/text_functions.h"
-#include "./util/text_file_functions.h"
+#include "text_functions.h"
+#include "text_file_functions.h"
 
 // Test functions
-#include "./test/directx9_test.h"
+#include "directx9_test.h"
 // New test
-#include "./test/constructor_test.h"
+#include "constructor_test.h"
 // OpenGL
-#include "./test/opengl_test.h"
+#include "opengl_test.h"
 
 // Menus
-#include "./menus/main_menu.h"
+//#include "../menus/main_menu.h"
+#include "main_menu.h"
+#include "vice_city_menu.h"
 
 // https://www.geeksforgeeks.org/macros-and-its-types-in-c-cpp/
 // Test macros
@@ -52,6 +53,7 @@ bool OpenGLTest::show_demo_window = false;
 // TODO Setup test for storing an array of pointers
 
 // TODO Try to play around with PS3 homebrew or Nintendo Switch homebrew.
+
 
 
 // This doesn't work
@@ -86,9 +88,15 @@ void MainMenu::MainMenuTest() {
 #ifdef _TEST1 // TODO Fixme
 	Car car1("Ford", "Mustang", 1969);
 #endif //_TEST1
+
+		// Vice City Test (ReVC)
+	VC::Menus::MainMenu();
+
+	//-------------- Menu bar-----------//
 		// Menu bar
 		if (ImGui::BeginMenuBar())
 		{
+			//-------------- Test menu bar item -----------//
 			if (ImGui::BeginMenu("Test"))
 			{
 				ImGui::MenuItem("Main menu bar", NULL, &DirectX9Test::show_app_main_menu_bar);
@@ -97,6 +105,7 @@ void MainMenu::MainMenuTest() {
 			ImGui::EndMenuBar();
 		}
 
+		//-------------- Test1 header -----------//
 		// Main testing header.
 		if (ImGui::CollapsingHeader("test1"))
 		{
@@ -206,6 +215,7 @@ void MainMenu::MainMenuTest() {
 			// Added some spacing to this
 			ImGui::Text("      Enabled by default for KCNet-ImGui");
 
+			// TODO What was this for? Remove this later
 #else
 			if (!ImGui::Checkbox("Dark Mode", &DirectX9Test::dark_mode))
 			{
@@ -375,7 +385,7 @@ void MainMenu::MainMenuTest() {
 		ImGui::Separator();
 
 
-		// New
+		//-------------- Test2 header -----------//
 
 		const int vsprintBufferSize = 1024;
 		char* vsPrintBuffer = new char[vsprintBufferSize];
@@ -394,13 +404,14 @@ void MainMenu::MainMenuTest() {
 		}
 		//
 
+		// Disabled, these are just for testing.
 		// This works for a column, having multiple items on the same row.
-		ImGui::Columns(2);
-		ImGui::Text("Hello");
-		ImGui::NextColumn();
-		ImGui::Text("World");
+		//ImGui::Columns(2);
+		//ImGui::Text("Hello");
+		//ImGui::NextColumn();
+		//ImGui::Text("World");
 
-		ImGui::Columns(1);
+		//ImGui::Columns(1);
 	//}
 }
 

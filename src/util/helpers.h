@@ -7,12 +7,13 @@
 // No wonder this didn't work.
 // https://stackoverflow.com/questions/12524168/resolving-found-at-file-scope-missing-function-header-in-vs2010-c
 
+#ifdef _TEST2
 class Helpers {
 public:
 #ifdef _WIN32
 	static bool CreateDeviceD3D(HWND hWnd);
 	static void CleanupDeviceD3D();
-	static void Helpers::ResetDevice();
+	static void ResetDevice();
 
 #ifdef _TEST2
 	static LPDIRECT3D9              g_pD3D;
@@ -28,5 +29,6 @@ public:
 	static bool CreateDeviceD3D();
 #endif 
 };
+#endif //_TEST2
 
 

@@ -13,6 +13,7 @@ namespace ImGuiFunctions {
 		void ShowWindow(HWND hwnd);
 		void ShutDown();
 		void DestroyWindow(HWND hwnd, WNDCLASSEXW wc);
+		void ApplyStyle();
 	}
 }
 

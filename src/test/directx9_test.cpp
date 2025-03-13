@@ -202,6 +202,10 @@ void DirectX9Test::directX9Test()
 
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
+	// Setup the style from the Cheat Menu
+	// https://github.com/user-grinch/Cheat-Menu
+	ImGuiFunctions::Main::ApplyStyle();
+
 	//ImGui::StyleColorsLight();
 
 	// Setup Platform/Renderer backends

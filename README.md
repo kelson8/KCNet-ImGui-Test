@@ -40,3 +40,7 @@ Here are some images of what this ImGui test is so far
 ![Light Mode Toggle](/screenshots/LightModeToggle.png) -->
 
 
+# Credits
+Credit to user-grinch on github for the ImGui style that I am using.
+The code for it is in imgui_functions.cpp under 'ImGuiFunctions::Main::ApplyStyle()'
+* https://github.com/user-grinch/Cheat-Menu/blob/master/src/cheatmenu.cpp#L271-L335

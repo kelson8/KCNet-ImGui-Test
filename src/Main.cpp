@@ -69,6 +69,8 @@ int main(int, char**)
 
     // I forgot about making a test DLL for this project.
     // DLL initialize
+
+#ifdef DLL_TEST
     HINSTANCE hinstDLL;
     DLLPROC HelloWorld;
     BOOL fFreeDLL;
@@ -118,6 +120,9 @@ int main(int, char**)
     }
 
     // End DLL initialize
+
+
+#endif //DLL_TEST
 
 #endif //_DIRECTX9
 #endif //_TEST1

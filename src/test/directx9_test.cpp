@@ -106,7 +106,6 @@ bool isDown = keyState & 0x8000;
 //static extern IntPtr GetConsoleWindow();
 #endif
 
-
 // Will this work?
 
 //static void setBulletText(const char* text)
@@ -280,7 +279,10 @@ void DirectX9Test::directX9Test()
 		if (ImGui::Begin(defines->imgui_window_name, nullptr, ImGuiWindowFlags_MenuBar))
 		{
 			// Show the main menu
+			// ReVC, test1, and test2.
 			MainMenu::MainMenuTest();
+
+			// Text File Functions
 
 			// Text file functions test menu
 			if (ImGui::CollapsingHeader("Text File Functions"))

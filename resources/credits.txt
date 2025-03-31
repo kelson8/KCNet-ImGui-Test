@@ -1,0 +1,5 @@
+Credit to user-grinch on github for the font and style from the Cheat Menu:
+
+Cheat Menu: https://github.com/user-grinch/Cheat-Menu/
+
+Font file (text.ttf in this folder): https://github.com/user-grinch/Cheat-Menu/blob/master/resource/addon/text.ttf

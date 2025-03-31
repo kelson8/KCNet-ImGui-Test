@@ -68,6 +68,8 @@ void ImGuiFunctions::Main::ShowWindow(HWND hwnd)
 /// </summary>
 void ImGuiFunctions::Main::SetupContext()
 {
+    bool oldFont = false;
+
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -84,8 +86,18 @@ void ImGuiFunctions::Main::SetupContext()
 	// - Read 'docs/FONTS.md' for more instructions and details.
 	// - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
 	io.Fonts->AddFontDefault();
-	io.Fonts->AddFontFromFileTTF("./lib/ImGui/misc/fonts/DroidSans.ttf", 16.0f);
-	//io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 18.0f);
+
+    if (oldFont) {
+        io.Fonts->AddFontFromFileTTF("./lib/ImGui/misc/fonts/DroidSans.ttf", 16.0f);
+    }
+    else {
+        // New font, from the Cheat Menu here https://github.com/user-grinch/Cheat-Menu/tree/master/resource/addon
+        io.Fonts->AddFontFromFileTTF("./resources/text.ttf", 1.15f);
+    }
+	//
+
+	
+    // Here are some other fonts
 	//io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
 	//io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
 	//io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);

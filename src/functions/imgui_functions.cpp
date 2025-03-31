@@ -1,11 +1,105 @@
+//#include "pch.h"
+
+// https://stackoverflow.com/questions/22744262/cant-call-stdmax-because-minwindef-h-defines-max
+// Fix for std::min and std::max
+#define NOMINMAX
+
+#include <string>
+#include <iostream>
+
 #include "imgui_functions.h"
+
+
 
 // ImGui
 #include "imgui.h"
 #include "imgui_impl_dx9.h"
 #include "imgui_impl_win32.h"
 
-// TODO Move ImGui functions for use in here.
+#ifdef _WIN32
+// For _getcwd
+#include <direct.h>
+#endif
+
+//-------------- ImGui Directories -------------/
+
+// TODO Make this work on Linux and Windows
+
+std::string
+ImGuiFunctions::Folders::GetCurrentWorkingDirectory()
+{
+#ifdef _WIN32
+    char buffer[MAX_PATH];
+    if (_getcwd(buffer, sizeof(buffer)) != nullptr) {
+        return std::string(buffer);
+    }
+    else {
+        return ""; // Or handle the error appropriately
+    }
+#endif
+}
+
+
+void
+ImGuiFunctions::Folders::OpenCurrentDirectoryButton(const char* buttonLabel)
+{
+#ifdef _WIN32
+    std::string currentDir = GetCurrentWorkingDirectory();
+    if (!currentDir.empty() && ImGui::Button(buttonLabel)) 
+    { 
+        ShellExecuteA(nullptr, "explore", currentDir.c_str(), nullptr, nullptr, SW_SHOWNORMAL); 
+    }
+
+#endif
+}
+
+void
+ImGuiFunctions::Folders::OpenDirectoryButton(std::string folder, const char* buttonLabel)
+{
+    //Defines defines = Defines();
+#ifdef _WIN32
+    // std::string currentDir = GetCurrentWorkingDirectory() + folder;
+    if (!folder.empty() && ImGui::Button(buttonLabel)) {
+        // Leftover log function, ReVC
+        //LogFunctions::LogInfo(defines.logFile, "Folder path: " + folder);
+        // ShellExecuteA(nullptr, "explore", currentDir.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
+        ShellExecuteA(nullptr, "explore", folder.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
+    }
+#endif
+}
+
+
+
+//-------------- End ImGui Directories -------------/
+
+//-------------- ImGui input -------------/
+
+
+void
+ImGuiFunctions::Input::InputIntMax(const char* label, int* v, int step, int step_fast, int max_value)
+{
+    if (ImGui::InputInt(label, v, step, step_fast)) {
+        *v = std::min(*v, max_value);
+        //return true; // Value changed
+    }
+    //return false; // Value unchanged
+}
+
+// If you also need to set a min value, use this function instead:
+void
+ImGuiFunctions::Input::InputIntClamp(const char* label, int* v, int step, int step_fast, int min_value, int max_value)
+{
+    if (ImGui::InputInt(label, v, step, step_fast)) {
+        *v = std::max(min_value, std::min(*v, max_value));
+        //return true; // Value changed
+    }
+    //return false; // Value unchanged
+}
+
+//-------------- End ImGui input -------------/
+
+
+//-------------- ImGui Window handling -------------/
 
 /// <summary>
 /// Destory the ImGui window
@@ -63,6 +157,11 @@ void ImGuiFunctions::Main::ShowWindow(HWND hwnd)
 //	}
 //}
 
+//-------------- End ImGui Window handling -------------/
+
+
+//-------------- ImGui Setup and fonts -------------/
+
 /// <summary>
 /// Setup ImGui
 /// </summary>
@@ -105,21 +204,7 @@ void ImGuiFunctions::Main::SetupContext()
 	//IM_ASSERT(font != nullptr);
 }
 
-/// <summary>
-/// Add a help marker
-/// </summary>
-/// <param name="desc"></param>
-static void ImGuiFunctions::Main::HelpMarker(const char* desc)
-{
-	ImGui::TextDisabled("(?)");
-	if (ImGui::BeginItemTooltip())
-	{
-		ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-		ImGui::TextUnformatted(desc);
-		ImGui::PopTextWrapPos();
-		ImGui::EndTooltip();
-	}
-}
+
 
 // Credit to user-grinch on github for the style code here.
 // https://github.com/user-grinch/Cheat-Menu/blob/master/src/cheatmenu.cpp#L271-L335
@@ -188,3 +273,26 @@ void ImGuiFunctions::Main::ApplyStyle()
     style->Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.06f, 0.05f, 0.06f, 0.95f);
     style->Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.20f, 0.20f, 0.20f, 0.6f);
 }
+
+
+//-------------- End ImGui Setup and fonts -------------/
+
+//-------------- Misc ImGui functions -------------/
+
+/// <summary>
+/// Add a help marker
+/// </summary>
+/// <param name="desc"></param>
+static void ImGuiFunctions::Main::HelpMarker(const char* desc)
+{
+    ImGui::TextDisabled("(?)");
+    if (ImGui::BeginItemTooltip())
+    {
+        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+        ImGui::TextUnformatted(desc);
+        ImGui::PopTextWrapPos();
+        ImGui::EndTooltip();
+    }
+}
+
+//-------------- End Misc ImGui functions -------------/

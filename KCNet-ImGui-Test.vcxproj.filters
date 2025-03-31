@@ -73,6 +73,9 @@
     <ClCompile Include="src\menus\test_menu1.cpp">
       <Filter>src\menus</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\misc_util.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\ImGui\imconfig.h">
@@ -156,6 +159,9 @@
     </ClInclude>
     <ClInclude Include="src\menus\test_menu1.h">
       <Filter>src\menus</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\misc_util.h">
+      <Filter>src\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

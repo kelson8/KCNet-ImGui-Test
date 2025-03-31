@@ -14,3 +14,15 @@
 // This works for shortening the ImGui text.
 // Add it to files that use ImGui text.
 #define IMGUITEXT ImGui::Text
+
+// Make a button
+#define IMGUIBUTTON ImGui::Button
+
+// Make a input int value
+#define IMGUI_INPUT_INT(LABEL, VALUE) ImGui::InputInt(LABEL, VALUE)
+
+// Make a input int with flags
+#define IMGUI_INPUT_INT_FLAGS(LABEL, VALUE, FLAGS) ImGui::InputInt(LABEL, VALUE, FLAGS)
+
+// Make an ImGui separator
+#define IMGUI_SEPERATOR ImGui::Separator

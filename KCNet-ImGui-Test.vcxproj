@@ -248,6 +248,7 @@
     <ClCompile Include="src\test\opengl_test.cpp" />
     <ClCompile Include="src\util\helpers.cpp" />
     <ClCompile Include="src\util\keystates.cpp" />
+    <ClCompile Include="src\util\misc_util.cpp" />
     <ClCompile Include="src\util\text_file_functions.cpp" />
     <ClCompile Include="src\util\text_functions.cpp" />
   </ItemGroup>
@@ -268,6 +269,7 @@
     <ClInclude Include="src\util\helpers.h" />
     <ClInclude Include="src\util\imgui_defines.h" />
     <ClInclude Include="src\util\keystates.h" />
+    <ClInclude Include="src\util\misc_util.h" />
     <ClInclude Include="src\util\text_file_functions.h" />
     <ClInclude Include="src\util\text_functions.h" />
     <ClInclude Include="lib\ImGui\backends\imgui_impl_dx9.h" />

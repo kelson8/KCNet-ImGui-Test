@@ -67,6 +67,12 @@
     <ClCompile Include="src\functions\imgui_functions.cpp">
       <Filter>src\functions</Filter>
     </ClCompile>
+    <ClCompile Include="src\menus\test_menu2.cpp">
+      <Filter>src\menus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menus\test_menu1.cpp">
+      <Filter>src\menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\ImGui\imconfig.h">
@@ -120,7 +126,7 @@
     <ClInclude Include="src\test\directx9_test.h">
       <Filter>src\test</Filter>
     </ClInclude>
-    <ClInclude Include="src\test\defines.h">
+    <ClInclude Include="src\util\defines.h">
       <Filter>src\test</Filter>
     </ClInclude>
     <ClInclude Include="src\test\curl_test.h">
@@ -143,6 +149,13 @@
     </ClInclude>
     <ClInclude Include="src\functions\imgui_functions.h">
       <Filter>src\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\imgui_defines.h" />
+    <ClInclude Include="src\menus\test_menu2.h">
+      <Filter>src\menus</Filter>
+    </ClInclude>
+    <ClInclude Include="src\menus\test_menu1.h">
+      <Filter>src\menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

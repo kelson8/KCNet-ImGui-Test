@@ -3,6 +3,9 @@ Main - Copy.cpp
 old/**
 asm/
 
+# Removed this, it is user specific.
+imgui.ini
+
 # ---> C++
 # Prerequisites
 *.d

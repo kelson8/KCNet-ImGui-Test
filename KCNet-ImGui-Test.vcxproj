@@ -210,7 +210,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Directx9|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>lib\imgui\;lib\imgui\backends;.\src;.\src\test;.\src\util\;.\src\functions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>lib\imgui\;lib\imgui\backends;.\lib\lua;.\src;.\src\test;.\src\util\;.\src\functions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DIRECTX9</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -228,6 +228,39 @@
   <ItemGroup>
     <ClCompile Include="lib\ImGui\backends\imgui_impl_dx9.cpp" />
     <ClCompile Include="lib\ImGui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="lib\lua\lapi.c" />
+    <ClCompile Include="lib\lua\lauxlib.c" />
+    <ClCompile Include="lib\lua\lbaselib.c" />
+    <ClCompile Include="lib\lua\lcode.c" />
+    <ClCompile Include="lib\lua\lcorolib.c" />
+    <ClCompile Include="lib\lua\lctype.c" />
+    <ClCompile Include="lib\lua\ldblib.c" />
+    <ClCompile Include="lib\lua\ldebug.c" />
+    <ClCompile Include="lib\lua\ldo.c" />
+    <ClCompile Include="lib\lua\ldump.c" />
+    <ClCompile Include="lib\lua\lfunc.c" />
+    <ClCompile Include="lib\lua\lgc.c" />
+    <ClCompile Include="lib\lua\linit.c" />
+    <ClCompile Include="lib\lua\liolib.c" />
+    <ClCompile Include="lib\lua\llex.c" />
+    <ClCompile Include="lib\lua\lmathlib.c" />
+    <ClCompile Include="lib\lua\lmem.c" />
+    <ClCompile Include="lib\lua\loadlib.c" />
+    <ClCompile Include="lib\lua\lobject.c" />
+    <ClCompile Include="lib\lua\lopcodes.c" />
+    <ClCompile Include="lib\lua\loslib.c" />
+    <ClCompile Include="lib\lua\lparser.c" />
+    <ClCompile Include="lib\lua\lstate.c" />
+    <ClCompile Include="lib\lua\lstring.c" />
+    <ClCompile Include="lib\lua\lstrlib.c" />
+    <ClCompile Include="lib\lua\ltable.c" />
+    <ClCompile Include="lib\lua\ltablib.c" />
+    <ClCompile Include="lib\lua\ltm.c" />
+    <ClCompile Include="lib\lua\lundump.c" />
+    <ClCompile Include="lib\lua\lutf8lib.c" />
+    <ClCompile Include="lib\lua\lvm.c" />
+    <ClCompile Include="lib\lua\lzio.c" />
+    <ClCompile Include="src\functions\file_functions.cpp" />
     <ClCompile Include="src\functions\imgui_functions.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="lib\ImGui\backends\imgui_impl_win32.cpp" />
@@ -245,7 +278,9 @@
     <ClCompile Include="src\test\curl_test.cpp" />
     <ClCompile Include="src\test\directx9_test.cpp" />
     <ClCompile Include="src\test\http_lib_test.cpp" />
+    <ClCompile Include="src\test\lua_test.cpp" />
     <ClCompile Include="src\test\opengl_test.cpp" />
+    <ClCompile Include="src\util\defines.cpp" />
     <ClCompile Include="src\util\helpers.cpp" />
     <ClCompile Include="src\util\keystates.cpp" />
     <ClCompile Include="src\util\misc_util.cpp" />
@@ -253,6 +288,35 @@
     <ClCompile Include="src\util\text_functions.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="lib\lua\lapi.h" />
+    <ClInclude Include="lib\lua\lauxlib.h" />
+    <ClInclude Include="lib\lua\lcode.h" />
+    <ClInclude Include="lib\lua\lctype.h" />
+    <ClInclude Include="lib\lua\ldebug.h" />
+    <ClInclude Include="lib\lua\ldo.h" />
+    <ClInclude Include="lib\lua\lfunc.h" />
+    <ClInclude Include="lib\lua\lgc.h" />
+    <ClInclude Include="lib\lua\ljumptab.h" />
+    <ClInclude Include="lib\lua\llex.h" />
+    <ClInclude Include="lib\lua\llimits.h" />
+    <ClInclude Include="lib\lua\lmem.h" />
+    <ClInclude Include="lib\lua\lobject.h" />
+    <ClInclude Include="lib\lua\lopcodes.h" />
+    <ClInclude Include="lib\lua\lopnames.h" />
+    <ClInclude Include="lib\lua\lparser.h" />
+    <ClInclude Include="lib\lua\lprefix.h" />
+    <ClInclude Include="lib\lua\lstate.h" />
+    <ClInclude Include="lib\lua\lstring.h" />
+    <ClInclude Include="lib\lua\ltable.h" />
+    <ClInclude Include="lib\lua\ltm.h" />
+    <ClInclude Include="lib\lua\lua.h" />
+    <ClInclude Include="lib\lua\lua.hpp" />
+    <ClInclude Include="lib\lua\luaconf.h" />
+    <ClInclude Include="lib\lua\lualib.h" />
+    <ClInclude Include="lib\lua\lundump.h" />
+    <ClInclude Include="lib\lua\lvm.h" />
+    <ClInclude Include="lib\lua\lzio.h" />
+    <ClInclude Include="src\functions\file_functions.h" />
     <ClInclude Include="src\functions\imgui_functions.h" />
     <ClInclude Include="src\menus\main_menu.h" />
     <ClInclude Include="src\menus\pch.h" />
@@ -262,10 +326,11 @@
     <ClInclude Include="src\menus\vice_city_menu.h" />
     <ClInclude Include="src\test\constructor_test.h" />
     <ClInclude Include="src\test\curl_test.h" />
-    <ClInclude Include="src\util\defines.h" />
     <ClInclude Include="src\test\directx9_test.h" />
     <ClInclude Include="src\test\http_lib_test.h" />
+    <ClInclude Include="src\test\lua_test.h" />
     <ClInclude Include="src\test\opengl_test.h" />
+    <ClInclude Include="src\util\defines.h" />
     <ClInclude Include="src\util\helpers.h" />
     <ClInclude Include="src\util\imgui_defines.h" />
     <ClInclude Include="src\util\keystates.h" />
@@ -285,6 +350,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\ImGui\backends\imgui_impl_metal.mm" />
+    <None Include="lib\lua\Makefile" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

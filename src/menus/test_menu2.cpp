@@ -19,6 +19,11 @@
 // Functions for clamping the inputs for values and other stuff
 #include "imgui_functions.h"
 
+// I don't think the exe names should really be too long
+// https://www.thoughtco.com/definition-of-buffer-p2-958030
+//char* buf = new char[30];
+char memoryBaseBuffer[30] = ""; // Allocate on the stack. Choose a suitable size.
+
 void TestMenu2::TestMenu()
 {
 	// Init the random number to 0 by default
@@ -99,6 +104,32 @@ void TestMenu2::TestMenu()
 		ImGuiFunctions::Folders::OpenCurrentDirectoryButton("Open current directory");
 
 		IMGUI_SEPERATOR();
+		
+		IMGUITEXT("Memory address testing");
+		
+
+		// Well this makes the random number glitch out.. Oops.
+		//ImGui::InputText("Exe Name", buf, 20);
+		ImGui::InputText("Exe Name", memoryBaseBuffer, sizeof(memoryBaseBuffer));
+		if (IMGUIBUTTON("Display base address")) 
+		{
+			// Make sure there is a value in the buffer
+			// TODO Add error handling to check for invalid or not found exe.
+			//if (buf)
+			if (memoryBaseBuffer)
+			{
+				if (memoryBaseBuffer[0] != '\0') {
+					miscUtil.LogBaseAddress(memoryBaseBuffer);
+				}
+				// TODO Fix this
+				//else {
+				//	ImGui::Text("Please enter an exe name.");
+				//}
+			}
+		}	
+		IMGUI_SEPERATOR();
+
+
 
 		// End directory testing
 

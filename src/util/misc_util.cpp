@@ -4,6 +4,13 @@
 #include <random>
 #include <string>
 
+#ifdef _WIN32
+// Added to header
+//#include <Windows.h>
+#include <Psapi.h>
+#include <TlHelp32.h>
+#endif
+
 #define NEW_RANDOM_NUMBER_GEN
 
 /// <summary>
@@ -52,3 +59,127 @@ MiscUtil::GenerateRandomNumber(int min, int max)
 #endif
 }
 
+
+#ifdef _WIN32
+
+/// <summary>
+/// Get the base address, and display it in the console.
+/// TODO Fix this to work, it works in my ReVC tests.
+/// </summary>
+//void
+//MiscUtil::LogBaseAddress(LPCSTR exeName)
+//{
+//	// New
+//	uintptr_t baseAddress = 0;
+//	DWORD processID = 0;
+//
+//	std::cout << "Attempting to get module handle for: \"" << exeName << "\"" << std::endl; // Debug output
+//
+//	HMODULE hModule = GetModuleHandleA(exeName);
+//	if (hModule) {
+//		MODULEINFO moduleInfo;
+//		if (GetModuleInformation(GetCurrentProcess(), hModule, &moduleInfo, sizeof(moduleInfo))) {
+//			uintptr_t baseAddress = reinterpret_cast<uintptr_t>(moduleInfo.lpBaseOfDll);
+//
+//			std::cout << "Base address of " << exeName << ": " << std::hex << baseAddress << std::endl;
+//		}
+//		else {
+//			std::cerr << "Failed to get Module information" << std::endl;
+//		}
+//
+//	}
+//	else {
+//		DWORD error = GetLastError();
+//		std::cout << "Exe name: " << exeName << std::endl;
+//		std::cerr << "Failed to get base address. Error code: " << error << std::endl;
+//	}
+//}
+
+// New
+
+void
+MiscUtil::LogBaseAddress(const char* exeName)
+{
+	std::cout << "Base address for " << exeName << ": 0x" << this->GetModuleBaseAddress(exeName) << std::endl;
+}
+
+
+
+/// <summary>
+/// Get the base address by itself without logging it.
+/// This should always get the base module address.
+/// </summary>
+/// <param name="exeName">The exe name to get the base address from</param>
+/// <returns>The exe module base address</returns>
+//uintptr_t
+//MiscUtil::GetModuleBaseAddress(const char* exeName)
+//{
+//	HMODULE hModule = GetModuleHandleA(exeName);
+//	if (hModule) {
+//		MODULEINFO moduleInfo;
+//		if (GetModuleInformation(GetCurrentProcess(), hModule, &moduleInfo, sizeof(moduleInfo))) {
+//			return reinterpret_cast<uintptr_t>(moduleInfo.lpBaseOfDll);
+//		}
+//	}
+//	return 0; // Return 0 on failure
+//}
+
+// New
+
+/// <summary>
+/// This seems to work, although ReVC reports a different value when being logged.
+/// TODO Look into this
+/// </summary>
+/// <param name="exeName"></param>
+/// <returns></returns>
+uintptr_t MiscUtil::GetModuleBaseAddress(const char* exeName) {
+	uintptr_t baseAddress = 0;
+	DWORD processID = 0;
+
+	// 1. Get the Process ID (PID)
+	HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	if (hSnapshot != INVALID_HANDLE_VALUE) {
+		PROCESSENTRY32 processEntry;
+		processEntry.dwSize = sizeof(PROCESSENTRY32);
+
+		if (Process32First(hSnapshot, &processEntry)) {
+			do {
+				if (_stricmp(processEntry.szExeFile, exeName) == 0) {
+					processID = processEntry.th32ProcessID;
+					break;
+				}
+			} while (Process32Next(hSnapshot, &processEntry));
+		}
+		CloseHandle(hSnapshot);
+	}
+
+	if (processID != 0) {
+		// 2. Open the Process
+		HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, processID);
+		if (hProcess != NULL) {
+			HMODULE hModules[1024];
+			DWORD bytesNeeded;
+
+			// 3. Enumerate Modules
+			if (EnumProcessModules(hProcess, hModules, sizeof(hModules), &bytesNeeded)) {
+				for (unsigned int i = 0; i < bytesNeeded / sizeof(HMODULE); ++i) {
+					char moduleName[MAX_PATH];
+					if (GetModuleBaseNameA(hProcess, hModules[i], moduleName, sizeof(moduleName) / sizeof(char))) {
+						if (_stricmp(moduleName, exeName) == 0) {
+							MODULEINFO moduleInfo;
+							// 4. Get Module Information
+							if (GetModuleInformation(hProcess, hModules[i], &moduleInfo, sizeof(moduleInfo))) {
+								baseAddress = reinterpret_cast<uintptr_t>(moduleInfo.lpBaseOfDll);
+								break;
+							}
+						}
+					}
+				}
+			}
+			CloseHandle(hProcess);
+		}
+	}
+	return baseAddress;
+}
+
+#endif //_WIN32

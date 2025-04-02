@@ -3,6 +3,16 @@
 #if _WIN32
 #include <Windows.h>
 #endif
+
+#include <string.h>
+#include <iostream>
+
+// Enable lua test
+#define LUA_TEST
+
+// Enable the lua event test, this is disabled until I'm ready to use it.
+//#define LUA_EVENT_TEST
+
 //
 
 // TODO Fix this to work in the OpenGL test
@@ -22,6 +32,10 @@ public:
 	const wchar_t* window_title = TITLE;
 	const wchar_t* main_menu_title = MAIN_MENU_TITLE_;
 	const char* imgui_window_name = IMGUI_WINDOW_NAME_;
+
+	// Lua script files
+	static std::string luaScript;
+	static std::string luaEventsScript;
 };
 
 

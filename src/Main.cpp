@@ -20,6 +20,8 @@ int main(int, char**)
 #include <iostream>
 #include <windows.h>
 
+#include "defines.h"
+
 // Main code
 // I moved the DirectX9 code into the test/directx9_test.cpp file,
 
@@ -33,6 +35,15 @@ int main(int, char**)
 
 // New
 #include <shellapi.h>
+
+#ifdef LUA_TEST
+#include "lua_test.h"
+//extern "C" {
+//#include <lauxlib.h>
+//#include <lua.h>
+//#include <lualib.h>
+//}
+#endif
 
 
 // https://stackoverflow.com/questions/14954876/how-to-create-a-message-box-with-user-defined-buttons-in-c
@@ -57,6 +68,13 @@ typedef VOID(*DLLPROC) (LPTSTR);
 int main(int, char**)
 {
 #define _TEST1
+    // Load lua
+#ifdef LUA_TEST
+    LuaTest luaTest = LuaTest();
+    luaTest.InitLua();
+
+#endif //LUA_TEST
+
     // Load a test dll
     // Get path to the dll, use current path
     // https://stackoverflow.com/questions/61382829/dynamically-use-a-dll-from-a-console-application

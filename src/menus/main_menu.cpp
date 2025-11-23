@@ -33,6 +33,9 @@
 #include "test_menu1.h"
 #include "test_menu2.h"
 
+#include "text_menu.h"
+#include "defines.h"
+
 // https://www.geeksforgeeks.org/macros-and-its-types-in-c-cpp/
 // Test macros
 #define LIMIT 5
@@ -83,6 +86,50 @@ int call_vsprintf_s(char* buffer, size_t numberOfElements, char* format)
 
 // Enable this for test constructor once I get it fixed.
 //#define _TEST1
+
+/// <summary>
+/// Main menu for the project, moved out of directx9_test.cpp.
+/// </summary>
+void MainMenu::Menu() {
+
+	TextMenu* textMenu = new TextMenu();
+	Defines* defines = new Defines();
+
+	if (ImGui::Begin(defines->imgui_window_name, nullptr, ImGuiWindowFlags_MenuBar))
+	{
+		// Show the main menu
+		// ReVC, test1, and test2.
+		MainMenu::MainMenuTest();
+
+		// Text File Functions
+
+		// Text file functions test menu
+		if (ImGui::CollapsingHeader("Text File Functions"))
+		{
+			textMenu->TextMainMenu();
+		}
+		// End Text file functions test menu
+
+		// HTTP Test menu, doesn't work
+#ifdef _TEST1
+		if (ImGui::CollapsingHeader("Http Test")) {
+			bool show_html = false;
+			// TODO Move this to using
+			// httpTestMenu->HttpTestMainMenu();
+			ImGui::Checkbox("Test", &show_html);
+
+			if (show_html)
+			{
+				//ImGui::Text(HttpTest::test);
+				HttpTest::test();
+			}
+
+			// End http test menu
+		}
+#endif //_TEST1
+		
+	}
+}
 
 void MainMenu::MainMenuTest() {
 	ImGuiIO& io = ImGui::GetIO(); (void)io;

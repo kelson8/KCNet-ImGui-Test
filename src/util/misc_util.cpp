@@ -11,6 +11,34 @@
 #include <TlHelp32.h>
 #endif
 
+// https://www.delftstack.com/howto/cpp/check-cpp-version/
+#ifdef __cplusplus
+
+/// <summary>
+/// Get the current C++ version set in the program.
+/// TODO Why does this display C++98 when I have a newer version selected?
+/// </summary>
+/// <returns>The C++ version as a string.</returns>
+std::string MiscUtil::CPlusPlusVersion() {
+	switch (__cplusplus) {
+	case 199711L:
+		return "C++98";
+		break;
+	case 201103L:
+		return "C++11";
+		break;
+	case 201402L:
+		return "C++14";
+		break;
+	case 201703L:
+		return "C++17";
+		break;
+		
+	}
+}
+
+#endif //__cplusplus
+
 #define NEW_RANDOM_NUMBER_GEN
 
 /// <summary>

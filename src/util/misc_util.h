@@ -12,6 +12,9 @@
 class MiscUtil
 {
 public:
+	// Return the current C++ version
+	std::string CPlusPlusVersion();
+
 	// Convert a memory address to a string
 	// Takes a value like '&pPlayer->m_fHealth' or any variable.
 	std::string AddressToString(void* address);

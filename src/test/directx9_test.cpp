@@ -273,44 +273,9 @@ void DirectX9Test::directX9Test()
 //***************
 // Start of ImGui code
 //***************
-		
-		// TODO Possibly move this into it's own file, so it can be used
-		// in my DirectX9 test and OpenGL test with preprocessors.
-		if (ImGui::Begin(defines->imgui_window_name, nullptr, ImGuiWindowFlags_MenuBar))
-		{
-			// Show the main menu
-			// ReVC, test1, and test2.
-			MainMenu::MainMenuTest();
 
-			// Text File Functions
-
-			// Text file functions test menu
-			if (ImGui::CollapsingHeader("Text File Functions"))
-			{
-				textMenu->TextMainMenu();
-			}
-			// End Text file functions test menu
-			
-			// HTTP Test menu, doesn't work
-#ifdef _TEST1
-			if (ImGui::CollapsingHeader("Http Test")) {
-				bool show_html = false;
-				// TODO Move this to using
-				// httpTestMenu->HttpTestMainMenu();
-				ImGui::Checkbox("Test", &show_html);
-
-				if (show_html)
-				{
-					//ImGui::Text(HttpTest::test);
-					HttpTest::test();
-				}
-
-
-
-			}
-#endif //_TEST1
-			// End http test menu
-	}
+		// Display main menu, moved into main_menu.cpp.
+		MainMenu::Menu();
 		// End ImGui
 		ImGui::End();
 

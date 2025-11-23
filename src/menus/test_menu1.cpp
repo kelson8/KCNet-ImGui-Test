@@ -14,6 +14,8 @@
 
 #include "imgui_functions.h"
 
+#include "misc_util.h"
+
 using namespace std;
 
 // I moved the test1 collapsing header menu into here.
@@ -21,6 +23,8 @@ using namespace std;
 
 void TestMenu1::TestMenu()
 {
+
+	MiscUtil miscUtil = MiscUtil();
 
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	//-------------- Test1 header -----------//
@@ -297,6 +301,18 @@ void TestMenu1::TestMenu()
 		else
 		{
 			ImGui::Text("Disabled");
+		}
+		//
+
+		ImGui::Checkbox("Display C++ Version", &DirectX9Test::display_cpp_version);
+
+		if (DirectX9Test::display_cpp_version) {
+			
+			// Hmm, this is a dangling pointer like this? Not sure why.
+			//const char* cPlusPlusVersion = miscUtil.CPlusPlusVersion().c_str();
+
+			//ImGui::Text(cPlusPlusVersion);
+			ImGui::Text(miscUtil.CPlusPlusVersion().c_str());
 		}
 		//
 	}

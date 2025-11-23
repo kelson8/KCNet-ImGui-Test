@@ -7,12 +7,23 @@
 #include <string.h>
 #include <iostream>
 
+#include <string>
+
 // Enable lua test
 #define LUA_TEST
 
 // Enable the lua event test, this is disabled until I'm ready to use it.
 //#define LUA_EVENT_TEST
 
+//
+
+// Shortcut for std::cout and placing std::endl at the end
+template <typename T>
+inline void
+log_output(const T& message)
+{
+	std::cout << message << std::endl;
+}
 //
 
 // TODO Fix this to work in the OpenGL test

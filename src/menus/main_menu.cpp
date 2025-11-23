@@ -49,6 +49,7 @@ bool DirectX9Test::toggle_text = false;
 bool DirectX9Test::dark_mode = true; // I have dark mode enabled, I'll leave this to true.
 bool DirectX9Test::define_test = false;
 bool DirectX9Test::list_values = false;
+bool DirectX9Test::display_cpp_version = false;
 
 
 // OpenGLTest

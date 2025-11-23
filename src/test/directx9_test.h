@@ -18,6 +18,8 @@ public:
 	static bool define_test;
 	static bool toggle_text;
 
+	static bool display_cpp_version;
+
 	// Data
 
 // TODO Make these public, add them into the header.

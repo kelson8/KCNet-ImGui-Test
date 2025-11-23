@@ -12,6 +12,8 @@
 
 #include "text_functions.h"
 
+#include "imgui_functions.h"
+
 using namespace std;
 
 // I moved the test1 collapsing header menu into here.
@@ -118,7 +120,8 @@ void TestMenu1::TestMenu()
 			if (DirectX9Test::dark_mode)
 			{
 
-				ImGui::StyleColorsDark();
+				//ImGui::StyleColorsDark();
+				ImGuiFunctions::Main::ApplyStyle();
 				ImGui::BulletText("On");
 			}
 			else

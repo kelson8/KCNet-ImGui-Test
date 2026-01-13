@@ -181,6 +181,9 @@
     <ClCompile Include="src\functions\file_functions.cpp">
       <Filter>src\functions</Filter>
     </ClCompile>
+    <ClCompile Include="src\menus\lua_menu.cpp">
+      <Filter>src\menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\ImGui\imconfig.h">
@@ -357,6 +360,9 @@
     </ClInclude>
     <ClInclude Include="src\functions\file_functions.h">
       <Filter>src\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\menus\lua_menu.h">
+      <Filter>src\menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -34,12 +34,16 @@ public:
 	// Convert a float to a string
 	std::string floatToString(float value);
 
+#ifdef _DIRECTX9
 	// Memory address testing
 	// Display the base address of a program in the console
 	// Logs the return value of the below function, GetModuleBaseAddress.
 	void LogBaseAddress(const char* exeName);
 
 	// Get the base address of a program, this doesn't log it.
+
 	uintptr_t GetModuleBaseAddress(const char* exeName);
+	//uintptr_t GetModuleBaseAddress(const wchar_t* exeName);
+#endif // _DIRECTX9
 };
 

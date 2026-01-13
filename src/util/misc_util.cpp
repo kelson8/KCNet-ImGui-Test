@@ -125,11 +125,14 @@ MiscUtil::GenerateRandomNumber(int min, int max)
 
 // New
 
+#ifdef _DIRECTX9
 void
 MiscUtil::LogBaseAddress(const char* exeName)
 {
 	std::cout << "Base address for " << exeName << ": 0x" << this->GetModuleBaseAddress(exeName) << std::endl;
 }
+
+#endif // _DIRECTX9
 
 
 
@@ -157,10 +160,15 @@ MiscUtil::LogBaseAddress(const char* exeName)
 /// <summary>
 /// This seems to work, although ReVC reports a different value when being logged.
 /// TODO Look into this
+/// TODO Fix this for OpenGL, it works when I build with DirectX9
 /// </summary>
 /// <param name="exeName"></param>
 /// <returns></returns>
+/// 
+
+#ifdef _DIRECTX9
 uintptr_t MiscUtil::GetModuleBaseAddress(const char* exeName) {
+//uintptr_t MiscUtil::GetModuleBaseAddress(const wchar_t* exeName) {
 	uintptr_t baseAddress = 0;
 	DWORD processID = 0;
 
@@ -173,6 +181,7 @@ uintptr_t MiscUtil::GetModuleBaseAddress(const char* exeName) {
 		if (Process32First(hSnapshot, &processEntry)) {
 			do {
 				if (_stricmp(processEntry.szExeFile, exeName) == 0) {
+				//if (_wcsicmp(processEntry.szExeFile, exeName) == 0) {
 					processID = processEntry.th32ProcessID;
 					break;
 				}
@@ -209,5 +218,7 @@ uintptr_t MiscUtil::GetModuleBaseAddress(const char* exeName) {
 	}
 	return baseAddress;
 }
+
+#endif // _DIRECTX9
 
 #endif //_WIN32

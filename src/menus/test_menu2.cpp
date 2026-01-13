@@ -110,8 +110,10 @@ void TestMenu2::TestMenu()
 
 		// Well this makes the random number glitch out.. Oops.
 		//ImGui::InputText("Exe Name", buf, 20);
+
+#ifdef _DIRECTX9
 		ImGui::InputText("Exe Name", memoryBaseBuffer, sizeof(memoryBaseBuffer));
-		if (IMGUIBUTTON("Display base address")) 
+		if (IMGUIBUTTON("Display base address"))
 		{
 			// Make sure there is a value in the buffer
 			// TODO Add error handling to check for invalid or not found exe.
@@ -126,7 +128,9 @@ void TestMenu2::TestMenu()
 				//	ImGui::Text("Please enter an exe name.");
 				//}
 			}
-		}	
+		}
+
+#endif // _DIRECTX9
 		IMGUI_SEPERATOR();
 
 

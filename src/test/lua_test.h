@@ -14,13 +14,17 @@ extern "C" {
 class LuaTest
 {
 private:
+
+#ifdef LUA_TEST
 	// Set the lua state
 	lua_State* m_luaVM;
 
 	// Register the lua functions
 	void RegisterLuaFunctions(lua_State* L);
+#endif // LUA_TEST
 public:
 
+#ifdef LUA_TEST
 	LuaTest();
 	void InitLua();
 
@@ -55,5 +59,7 @@ public:
 			lua_close(m_luaVM);
 		}
 	}
+
+#endif // LUA_TEST
 };
 

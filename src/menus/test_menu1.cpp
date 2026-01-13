@@ -71,13 +71,18 @@ void TestMenu1::TestMenu()
 		ImGui::Separator();
 		if (!ImGui::Button("Click"))
 		{
+#ifdef _DIRECTX9
 			DirectX9Test::button1_clicked = false;
+#endif // _DIRECTX9
 		}
 		else
 		{
+#ifdef _DIRECTX9
 			DirectX9Test::button1_clicked = true;
+#endif
 		}
 
+#ifdef _DIRECTX9
 		if (!DirectX9Test::button1_clicked)
 		{
 			TextFunctions::SetBulletText("You clicked the button");
@@ -88,6 +93,8 @@ void TestMenu1::TestMenu()
 
 			//ImGui::BulletText("You clicked the button!");
 		}
+#endif // _DIRECTX9
+
 		//}
 
 							//if (ImGui::Button("Click"))
@@ -118,7 +125,10 @@ void TestMenu1::TestMenu()
 
 
 
+#ifdef _DIRECTX9
 #ifdef _TEST
+
+
 		if (ImGui::Checkbox("Dark Mode", &DirectX9Test::dark_mode))
 		{
 			if (DirectX9Test::dark_mode)
@@ -155,12 +165,16 @@ void TestMenu1::TestMenu()
 			}
 		}
 #endif //_TEST
+
+#endif // _DIRECTX9
+
 		// Disable preprocessor
 #undef _TEST
 
 			// This works for toggling the demo window on and off
 #ifdef _OPENGL
-		ImGui::Checkbox("Demo window", &OpenGLTest::show_demo_window);
+		// TODO Fix this for OpenGL
+		//ImGui::Checkbox("Demo window", &OpenGLTest::show_demo_window);
 #endif
 
 #ifdef _DIRECTX9
@@ -287,6 +301,8 @@ void TestMenu1::TestMenu()
 			// Oh this is how I'm doing checkboxes.
 
 			// Lists out the values from the charTest
+
+#ifdef _DIRECTX9
 		ImGui::Checkbox("List values", &DirectX9Test::list_values);
 
 		if (DirectX9Test::list_values)
@@ -314,6 +330,8 @@ void TestMenu1::TestMenu()
 			//ImGui::Text(cPlusPlusVersion);
 			ImGui::Text(miscUtil.CPlusPlusVersion().c_str());
 		}
+
+#endif // _DIRECTX9
 		//
 	}
 }

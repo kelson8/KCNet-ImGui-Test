@@ -36,6 +36,10 @@
 #include "text_menu.h"
 #include "defines.h"
 
+#ifdef LUA_TEST
+#include "lua_menu.h"
+#endif
+
 // https://www.geeksforgeeks.org/macros-and-its-types-in-c-cpp/
 // Test macros
 #define LIMIT 5
@@ -54,6 +58,7 @@ bool DirectX9Test::define_test = false;
 bool DirectX9Test::list_values = false;
 bool DirectX9Test::display_cpp_version = false;
 
+#endif
 
 // OpenGLTest
 bool OpenGLTest::show_demo_window = false;
@@ -94,6 +99,9 @@ void MainMenu::Menu() {
 
 	TextMenu* textMenu = new TextMenu();
 	Defines* defines = new Defines();
+#ifdef LUA_TEST
+	LuaMenu* luaMenu = new LuaMenu();
+#endif
 
 	if (ImGui::Begin(defines->imgui_window_name, nullptr, ImGuiWindowFlags_MenuBar))
 	{
@@ -108,6 +116,18 @@ void MainMenu::Menu() {
 		{
 			textMenu->TextMainMenu();
 		}
+
+		ImGui::Separator();
+
+
+#ifdef LUA_TEST
+
+		if (ImGui::CollapsingHeader("Lua test functions"))
+		{
+			luaMenu->LuaMainMenu();
+		}
+
+#endif // LUA_TEST
 		// End Text file functions test menu
 
 		// HTTP Test menu, doesn't work
@@ -152,7 +172,11 @@ void MainMenu::MainMenuTest() {
 			//-------------- Test menu bar item -----------//
 			if (ImGui::BeginMenu("Test"))
 			{
+#ifdef _DIRECTX9
 				ImGui::MenuItem("Main menu bar", NULL, &DirectX9Test::show_app_main_menu_bar);
+#else
+				ImGui::Text("Not implemented in OpenGL");
+#endif // _DIRECTX9
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();
@@ -175,4 +199,3 @@ void MainMenu::MainMenuTest() {
 
 }
 
-#endif

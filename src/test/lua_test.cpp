@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 
+#ifdef LUA_TEST
+
 /// <summary>
 /// Set the lua state, and load the lua libraries
 /// </summary>
@@ -137,7 +139,6 @@ LuaTest::InitLua()
 	else {
 		std::cout << defines.luaScript << " doesn't exist!" << std::endl;
 	}
-
-
 }
 
+#endif // LUA_TEST
